@@ -21,7 +21,7 @@
           <Tab text="Routine" />
           <Tab text="Activity">
                <content>
-                  <BorderPane>
+                  <BorderPane fx:id="activityRoot">
                      <top>
                         <MenuBar BorderPane.alignment="CENTER">
                           <menus>

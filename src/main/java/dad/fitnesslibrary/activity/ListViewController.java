@@ -35,7 +35,7 @@ public class ListViewController implements Initializable {
 
 	public ListViewController() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListViewExercises.fxml"));
 			loader.setController(this);
 			loader.load();
 		} catch (IOException e) {

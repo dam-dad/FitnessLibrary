@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.fitnesslibrary.activity.ListViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,27 +18,31 @@ import javafx.scene.layout.BorderPane;
 
 public class RoutineActivityController implements Initializable {
 
-
-    @FXML
-    private BorderPane view;
+	@FXML
+    private BorderPane activityRoot;
 	
-    @FXML
-    private TabPane mainView;
-
-    @FXML
-    private Tab activityTab;
-    
-    @FXML
-    private Tab routineTab;
-
-    @FXML
+	@FXML
     private Button buscarButton;
 
     @FXML
     private TextField busquedaText;
 
     @FXML
+    private ComboBox<?> grupoMuscularCombo;
+
+    @FXML
+    private TabPane mainView;
+
+    @FXML
+    private ComboBox<?> musculoConcretoCombo;
+
+    @FXML
     private ComboBox<?> parteCuerpoCombo;
+
+    @FXML
+    private BorderPane view;
+    
+    private ListViewController ListController;
     
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
@@ -46,8 +51,9 @@ public class RoutineActivityController implements Initializable {
 	}
     
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		ListController = new ListViewController();
 
+		activityRoot.setCenter(ListController.getRoot());
 	}
 	
     @FXML

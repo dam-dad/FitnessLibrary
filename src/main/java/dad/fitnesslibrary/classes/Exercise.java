@@ -59,7 +59,7 @@ public class Exercise {
 	
 	@Override
 	public String toString() {
-		return "Exercise [bodyPart=" + bodyPart + ", equipment=" + equipment + ", gifUrl=" + gifUrl + ", id=" + id
+		return "Exercise [bodyPart=" + bodyPart + ", equipment=" + equipment + ", id=" + id
 				+ ", name=" + name + ", target=" + target + "]";
 	}
 }
