@@ -9,6 +9,7 @@ import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -52,6 +53,16 @@ public class RoutineActivityController implements Initializable {
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
 
+		activityRoot.setCenter(ListController.getRoot());
+		activityRoot.setLeft(menuLeftController.getLeftMenuView());
+		activityRoot.setTop(menuBarController.getView());
+		
+		//onActions
+		
+		menuBarController.getBuscarButton().setOnAction(e -> onBuscarButtonAction(e));
+		
+		//Listeners
+		
 		menuLeftController.getBodypartTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
 			if (ov != nv) {
 				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
@@ -72,10 +83,17 @@ public class RoutineActivityController implements Initializable {
 				System.out.println(selectedRadioButton.getText());
 			}
 		});
+	}
 
-		activityRoot.setCenter(ListController.getRoot());
-		activityRoot.setLeft(menuLeftController.getLeftMenuView());
-		activityRoot.setTop(menuBarController.getView());
+	private void onBuscarButtonAction(ActionEvent e) {
+		try {
+			String bodyPart = menuBarController.getGrupoMuscularCombo().getSelectionModel().getSelectedItem();
+			String equipment = menuBarController.getEquipamientoCombo().getSelectionModel().getSelectedItem();
+			String target = menuBarController.getMusculoConcretoCombo().getSelectionModel().getSelectedItem();
+			ListController.getByName(menuBarController.getBusquedaText().getText(), bodyPart, equipment, target);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}	
 	}
 
 	public BorderPane getView() {

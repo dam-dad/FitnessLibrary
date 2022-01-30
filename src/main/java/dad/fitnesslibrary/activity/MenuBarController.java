@@ -23,10 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 
 public class MenuBarController implements Initializable {
 
@@ -62,12 +59,7 @@ public class MenuBarController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
-	@FXML
-	void onBuscarButtonAction(ActionEvent event) {
-
-	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		settingComboBoxes();
@@ -145,7 +137,27 @@ public class MenuBarController implements Initializable {
 
 		return response.body().string();
 	}
+	
+	public ComboBox<String> getGrupoMuscularCombo() {
+		return grupoMuscularCombo;
+	}
 
+	public ComboBox<String> getMusculoConcretoCombo() {
+		return musculoConcretoCombo;
+	}
+
+	public ComboBox<String> getEquipamientoCombo() {
+		return equipamientoCombo;
+	}
+
+	public TextField getBusquedaText() {
+		return busquedaText;
+	}
+
+	public Button getBuscarButton() {
+		return buscarButton;
+	}
+	
 	public MenuBar getView() {
 		return view;
 	}
