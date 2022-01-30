@@ -2,12 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="LeftMenuView" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="LeftMenuView" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+      <VBox fx:id="equipamientoVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <children>
             <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipamiento" textAlignment="CENTER">
                <opaqueInsets>
@@ -20,7 +19,6 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <RadioButton fx:id="EquipamientoRadio" mnemonicParsing="false" onAction="#onActionEquipamientoRadio" text="RadioButton" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -32,7 +30,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </opaqueInsets>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+      <VBox fx:id="grupoMuscularVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
@@ -44,10 +42,9 @@
          </opaqueInsets>
          <children>
             <Label style="-fx-font-weight: bold;" text="Grupo Muscular" />
-            <RadioButton fx:id="RadioButtonRadio" mnemonicParsing="false" onAction="#onActionRadioButtonRadio" text="RadioButton" />
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+      <VBox fx:id="musculoVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
@@ -59,7 +56,6 @@
          </opaqueInsets>
          <children>
             <Label style="-fx-font-weight: bold;" text="Músculo" />
-            <RadioButton fx:id="MúsculoRadio" mnemonicParsing="false" onAction="#onActionMúsculoRadio" text="RadioButton" />
          </children>
       </VBox>
    </children>

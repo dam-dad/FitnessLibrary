@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +17,8 @@ import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
 
 import dad.fitnesslibrary.classes.Exercise;
+import dad.fitnesslibrary.classes.TipoComboBox;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,13 +30,14 @@ public class ListViewController implements Initializable {
 	@FXML
 	private ListView<Exercise> root;
 
-	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	Type exerciseListType = new TypeToken<List<Exercise>>() {
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+	private Type exerciseListType = new TypeToken<List<Exercise>>() {
 	}.getType();
 
-	Type stringListType = new TypeToken<List<String>>() {
+	private Type stringListType = new TypeToken<List<String>>() {
 	}.getType();
-
+	
 	public ListViewController() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListViewExercises.fxml"));
@@ -45,12 +50,7 @@ public class ListViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		try {
-			List<Exercise> exercises = getAllExercises();
-			root.getItems().addAll(exercises);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		getAllExercises();
 	}
 
 	@FXML
@@ -59,71 +59,122 @@ public class ListViewController implements Initializable {
 	}
 
 	// Get All Exercises
-	private List<Exercise> getAllExercises() throws IOException {
-		String json = getResponseBody("").string();
-
-		return gson.fromJson(json, exerciseListType);
+	public void getAllExercises() {
+		try {
+			getResponseBodyExercise("");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	// Exercises by Name
-	private List<Exercise> getByName(String name) throws IOException {
+	// Exercises by Name (Adri)
+	public void getByName(String name) throws IOException {
 		name.toLowerCase();
 		name.replaceAll(" ", "%20");
 
-		String json = getResponseBody("/name/" + name).string();
-
-		return gson.fromJson(json, exerciseListType);
+		getResponseBodyExercise("/name/" + name);
 	}
 
-	// Exercises by BodyPart
-	private List<Exercise> getByBodypart(String bodyPart) throws IOException {
+	// Exercises by BodyPart (Javi y Robertz)
+	public void getByBodypart(String bodyPart) throws IOException {
 		bodyPart.replaceAll(" ", "%20");
 
-		String json = getResponseBody("/bodyPart/" + bodyPart).string();
-
-		return gson.fromJson(json, exerciseListType);
+		getResponseBodyExercise("/bodyPart/" + bodyPart);
 	}
 
-	// List of Bodyparts
-	private List<String> getBodyParts() throws IOException {
-		String json = getResponseBody("/bodyPartList").string();
-
-		return gson.fromJson(json, stringListType);
+	// List of Bodyparts (Robertz)
+	public void getBodyParts() throws IOException {
+		getResponseBodyString("/bodyPartList", TipoComboBox.BODYPART);
 	}
 
-	// Exercises by Target
-	private List<Exercise> getByTarget(String target) throws IOException {
+	// Exercises by Target (Javi y Robertz)
+	public void getByTarget(String target) throws IOException {
 		target.replaceAll(" ", "%20");
 
-		String json = getResponseBody("/target/" + target).string();
-
-		return gson.fromJson(json, exerciseListType);
+		getResponseBodyExercise("/target/" + target);
 	}
 
-	// List of Targets
-	private List<String> getTargets() throws IOException {
-		String json = getResponseBody("/targetList").string();
-
-		return gson.fromJson(json, stringListType);
+	// List of Targets (Robertz)
+	public void getTargets() throws IOException {
+		getResponseBodyString("/targetList", TipoComboBox.TARGET);
 	}
 
-	// Exercises by Equipment
-	private List<Exercise> getByEquipment(String equipment) throws IOException {
+	// Exercises by Equipment (Javi y Robertz)
+	public void getByEquipment(String equipment) throws IOException {
 		equipment.replaceAll(" ", "%20");
 
-		String json = getResponseBody("/equipment/" + equipment).string();
-
-		return gson.fromJson(json, exerciseListType);
+		getResponseBodyExercise("/equipment/" + equipment);
 	}
 
-	// List of Equipments
-	private List<String> getEquipments() throws IOException {
-		String json = getResponseBody("/equipmentList").string();
-
-		return gson.fromJson(json, stringListType);
+	// List of Equipments ()
+	public void getEquipments() throws IOException {
+		getResponseBodyString("/equipmentList",TipoComboBox.EQUIPMENT);
 	}
 
-	private ResponseBody getResponseBody(String parameter) throws IOException {
+	private void getResponseBodyExercise(String parameter) throws IOException {		
+		Task<List<Exercise>> rbTask = new Task<List<Exercise>>() {
+			@Override
+			protected List<Exercise> call() throws Exception {
+				System.out.println("Ha entrado a el hilo");
+				
+				return gson.fromJson(backgroundCall(parameter), exerciseListType);
+			}
+		};
+
+		rbTask.setOnSucceeded(e -> {
+			try {
+				root.getItems().addAll(rbTask.get());
+			} catch (InterruptedException | ExecutionException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		rbTask.setOnFailed(e -> {
+			System.err.println(rbTask.getException());
+		});
+		
+		new Thread(rbTask).start();
+	}
+	
+	private void getResponseBodyString(String parameter, TipoComboBox tipo) throws IOException {		
+		Task<List<String>> rbTask = new Task<List<String>>() {
+			@Override
+			protected List<String> call() throws Exception {
+				System.out.println("Ha entrado a el hilo");
+				
+				return gson.fromJson(backgroundCall(parameter), stringListType);
+			}
+		};
+
+		rbTask.setOnSucceeded(e -> {
+			try {
+				rbTask.get();
+				switch (tipo) {
+				case BODYPART:
+					
+				break;
+					
+				case EQUIPMENT:
+					
+				break;
+					
+				case TARGET:
+					
+				break;
+				}
+			} catch (InterruptedException | ExecutionException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		rbTask.setOnFailed(e -> {
+			System.err.println(rbTask.getException());
+		});
+		
+		new Thread(rbTask).start();
+	}
+	
+	private String backgroundCall(String parameter) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 
 		Request request = new Request.Builder().url("https://exercisedb.p.rapidapi.com/exercises" + parameter).get()
@@ -131,12 +182,8 @@ public class ListViewController implements Initializable {
 				.addHeader("x-rapidapi-key", "582862b3a3mshb1f23c0f20232c2p175ea4jsn3aa2ad592392").build();
 
 		Response response = client.newCall(request).execute();
-
-		ResponseBody responseBody = null;
-
-		responseBody = response.body();
-
-		return responseBody;
+		
+		return response.body().string();
 	}
 
 	public ListView<Exercise> getRoot() {
