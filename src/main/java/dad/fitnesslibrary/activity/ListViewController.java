@@ -140,8 +140,6 @@ public class ListViewController implements Initializable {
 		Task<List<String>> rbTask = new Task<List<String>>() {
 			@Override
 			protected List<String> call() throws Exception {
-				System.out.println("Ha entrado a el hilo");
-				
 				return gson.fromJson(backgroundCall(parameter), stringListType);
 			}
 		};

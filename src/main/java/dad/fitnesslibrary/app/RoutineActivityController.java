@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dad.fitnesslibrary.activity.ListViewController;
+import dad.fitnesslibrary.activity.MenuLeftController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,21 +29,23 @@ public class RoutineActivityController implements Initializable {
     private TextField busquedaText;
 
     @FXML
-    private ComboBox<?> grupoMuscularCombo;
+    private ComboBox<String> grupoMuscularCombo;
 
     @FXML
     private TabPane mainView;
 
     @FXML
-    private ComboBox<?> musculoConcretoCombo;
+    private ComboBox<String> musculoConcretoCombo;
 
     @FXML
-    private ComboBox<?> parteCuerpoCombo;
+    private ComboBox<String> parteCuerpoCombo;
 
     @FXML
     private BorderPane view;
     
     private ListViewController ListController;
+    
+    private MenuLeftController menuLeftController;
     
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
@@ -52,8 +55,10 @@ public class RoutineActivityController implements Initializable {
     
 	public void initialize(URL location, ResourceBundle resources) {
 		ListController = new ListViewController();
-
+		menuLeftController = new MenuLeftController();
+		
 		activityRoot.setCenter(ListController.getRoot());
+		activityRoot.setLeft(menuLeftController.getLeftMenuView());
 	}
 	
     @FXML

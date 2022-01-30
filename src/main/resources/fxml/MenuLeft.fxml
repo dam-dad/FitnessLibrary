@@ -2,67 +2,70 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="LeftMenuView" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox fx:id="equipamientoVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+
+<ScrollPane fx:id="LeftMenuView" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipamiento" textAlignment="CENTER">
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </opaqueInsets>
+            <VBox fx:id="equipamientoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+               <children>
+                  <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipamiento" textAlignment="CENTER">
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
-            </Label>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+            </VBox>
+            <VBox fx:id="grupoMuscularVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Grupo Muscular" />
+               </children>
+            </VBox>
+            <VBox fx:id="musculoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Músculo" />
+               </children>
+            </VBox>
          </children>
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </opaqueInsets>
-      </VBox>
-      <VBox fx:id="grupoMuscularVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </opaqueInsets>
-         <children>
-            <Label style="-fx-font-weight: bold;" text="Grupo Muscular" />
-         </children>
       </VBox>
-      <VBox fx:id="musculoVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </opaqueInsets>
-         <children>
-            <Label style="-fx-font-weight: bold;" text="Músculo" />
-         </children>
-      </VBox>
-   </children>
-   <opaqueInsets>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </opaqueInsets>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
-</VBox>
+   </content>
+</ScrollPane>

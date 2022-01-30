@@ -16,11 +16,11 @@ import com.squareup.okhttp.Response;
 
 import dad.fitnesslibrary.classes.TipoComboBox;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
@@ -51,8 +51,8 @@ public class MenuLeftController implements Initializable {
     @FXML
     private VBox musculoVBox;
 	
-	@FXML
-	private VBox LeftMenuView;
+    @FXML
+    private ScrollPane LeftMenuView;
 
 	public MenuLeftController() {
 
@@ -94,8 +94,6 @@ public class MenuLeftController implements Initializable {
 		Task<List<String>> rbTask = new Task<List<String>>() {
 			@Override
 			protected List<String> call() throws Exception {
-				System.out.println("Ha entrado a el hilo");
-
 				return gson.fromJson(backgroundCall(parameter), stringListType);
 			}
 		};
@@ -107,7 +105,9 @@ public class MenuLeftController implements Initializable {
 				case BODYPART:
 					bodypartTG = new ToggleGroup();
 					for (String s : listaString) {
-						
+						RadioButton radioButton = new RadioButton(s);
+						radioButton.setToggleGroup(bodypartTG);
+						grupoMuscularVBox.getChildren().add(radioButton);
 					}
 					break;
 
@@ -123,7 +123,9 @@ public class MenuLeftController implements Initializable {
 				case TARGET:
 					targetTG = new ToggleGroup();
 					for (String s : listaString) {
-						
+						RadioButton radioButton = new RadioButton(s);
+						radioButton.setToggleGroup(targetTG);
+						musculoVBox.getChildren().add(radioButton);
 					}
 					break;
 				}
@@ -149,6 +151,10 @@ public class MenuLeftController implements Initializable {
 		Response response = client.newCall(request).execute();
 
 		return response.body().string();
+	}
+	
+	public ScrollPane getLeftMenuView() {
+		return LeftMenuView;
 	}
 
 }
