@@ -5,53 +5,79 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dad.fitnesslibrary.activity.ListViewController;
+import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Toggle;
 import javafx.scene.layout.BorderPane;
 
 public class RoutineActivityController implements Initializable {
 
 	@FXML
-    private BorderPane activityRoot;
+	private BorderPane activityRoot;
 
-    @FXML
-    private TabPane mainView;
-    
-    @FXML
-    private Tab routineTab;
-    
-    @FXML
-    private Tab activityTab;
+	@FXML
+	private TabPane mainView;
 
-    @FXML
-    private BorderPane view;
-    
-    private ListViewController ListController;
-    
-    private MenuLeftController menuLeftController;
-    
-    private MenuBarController menuBarController;
-    
+	@FXML
+	private Tab routineTab;
+
+	@FXML
+	private Tab activityTab;
+
+	@FXML
+	private BorderPane view;
+
+	private ListViewController ListController;
+
+	private MenuLeftController menuLeftController;
+
+	private MenuBarController menuBarController;
+
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
 		loader.setController(this);
 		loader.load();
 	}
-    
+
 	public void initialize(URL location, ResourceBundle resources) {
 		ListController = new ListViewController();
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
-		
+
+		menuLeftController.getBodypartTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv) {
+				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
+				System.out.println(selectedRadioButton.getText());
+			}
+		});
+
+		menuLeftController.getEquipmentTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv) {
+				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
+				System.out.println(selectedRadioButton.getText());
+			}
+		});
+
+		menuLeftController.getTargetTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv) {
+				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
+				System.out.println(selectedRadioButton.getText());
+			}
+		});
+
 		activityRoot.setCenter(ListController.getRoot());
 		activityRoot.setLeft(menuLeftController.getLeftMenuView());
-		view.setTop(menuBarController.getView());
+		activityRoot.setTop(menuBarController.getView());
 	}
-		
+
 	public BorderPane getView() {
 		return view;
 	}

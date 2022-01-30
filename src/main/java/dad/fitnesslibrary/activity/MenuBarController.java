@@ -16,85 +16,85 @@ import com.squareup.okhttp.Response;
 
 import dad.fitnesslibrary.classes.TipoComboBox;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 
-public class MenuLeftController implements Initializable {
+public class MenuBarController implements Initializable {
 
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private Type stringListType = new TypeToken<List<String>>() {
 	}.getType();
 
-	private ToggleGroup bodypartTG = new ToggleGroup();
-
-	private ToggleGroup equipmentTG = new ToggleGroup();
-
-	private ToggleGroup targetTG = new ToggleGroup();
-	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		generateRadioButtons();
-		
-		equipmentTG.selectedToggleProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv) {
-				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
-				System.out.println(selectedRadioButton.getText());
-			}
-		});
-	}
+	@FXML
+    private MenuBar view;
 
 	@FXML
-    private VBox equipamientoVBox;
+	private Button buscarButton;
 
-    @FXML
-    private VBox grupoMuscularVBox;
+	@FXML
+	private TextField busquedaText;
 
-    @FXML
-    private VBox musculoVBox;
-	
-    @FXML
-    private ScrollPane LeftMenuView;
-    
+	@FXML
+	private ComboBox<String> grupoMuscularCombo;
 
-	public MenuLeftController() {
+	@FXML
+	private ComboBox<String> musculoConcretoCombo;
 
+	@FXML
+	private ComboBox<String> equipamientoCombo;
+
+	public MenuBarController() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuLeft.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuBar.fxml"));
 			loader.setController(this);
 			loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void generateRadioButtons() {
+
+	@FXML
+	void onBuscarButtonAction(ActionEvent event) {
+
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		settingComboBoxes();
+	}
+
+	private void settingComboBoxes() {
 		try {
 			getBodyParts();
-			getEquipments();
 			getTargets();
+			getEquipments();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	// List of Bodyparts (Robertz)
-	public void getBodyParts() throws IOException {
+	private void getBodyParts() throws IOException {
 		getResponseBodyString("/bodyPartList", TipoComboBox.BODYPART);
 	}
 
 	// List of Targets (Robertz)
-	public void getTargets() throws IOException {
+	private void getTargets() throws IOException {
 		getResponseBodyString("/targetList", TipoComboBox.TARGET);
 	}
 
 	// List of Equipments (Robertz)
-	public void getEquipments() throws IOException {
+	private void getEquipments() throws IOException {
 		getResponseBodyString("/equipmentList", TipoComboBox.EQUIPMENT);
 	}
 
@@ -111,30 +111,15 @@ public class MenuLeftController implements Initializable {
 				List<String> listaString = rbTask.get();
 				switch (tipo) {
 				case BODYPART:
-					bodypartTG = new ToggleGroup();
-					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(bodypartTG);
-						grupoMuscularVBox.getChildren().add(radioButton);
-					}
+					grupoMuscularCombo.getItems().addAll(listaString);
 					break;
 
 				case EQUIPMENT:
-					equipmentTG = new ToggleGroup();
-					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(equipmentTG);
-						equipamientoVBox.getChildren().add(radioButton);
-					}
+					equipamientoCombo.getItems().addAll(listaString);
 					break;
 
 				case TARGET:
-					targetTG = new ToggleGroup();
-					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(targetTG);
-						musculoVBox.getChildren().add(radioButton);
-					}
+					musculoConcretoCombo.getItems().addAll(listaString);
 					break;
 				}
 			} catch (InterruptedException | ExecutionException e1) {
@@ -160,21 +145,9 @@ public class MenuLeftController implements Initializable {
 
 		return response.body().string();
 	}
-	
-	public ToggleGroup getBodypartTG() {
-		return bodypartTG;
-	}
 
-	public ToggleGroup getEquipmentTG() {
-		return equipmentTG;
-	}
-
-	public ToggleGroup getTargetTG() {
-		return targetTG;
-	}
-
-	public ScrollPane getLeftMenuView() {
-		return LeftMenuView;
+	public MenuBar getView() {
+		return view;
 	}
 
 }

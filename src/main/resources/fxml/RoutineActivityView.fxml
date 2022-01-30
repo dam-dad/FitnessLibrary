@@ -11,7 +11,7 @@
           <Tab fx:id="routineTab" text="Routine" />
           <Tab fx:id="activityTab" text="Activity">
                <content>
-                  <BorderPane />
+                  <BorderPane fx:id="activityRoot" />
                </content></Tab>
         </tabs>
       </TabPane>
