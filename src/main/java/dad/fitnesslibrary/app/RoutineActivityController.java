@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.fitnesslibrary.activity.EjercicioController;
 import dad.fitnesslibrary.activity.ListViewController;
 import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
@@ -17,6 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 
 public class RoutineActivityController implements Initializable {
@@ -42,6 +44,8 @@ public class RoutineActivityController implements Initializable {
 
 	private MenuBarController menuBarController;
 
+	private EjercicioController ejercicioController;
+
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
 		loader.setController(this);
@@ -52,17 +56,31 @@ public class RoutineActivityController implements Initializable {
 		ListController = new ListViewController();
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
+		ejercicioController = new EjercicioController();
 
 		activityRoot.setCenter(ListController.getRoot());
 		activityRoot.setLeft(menuLeftController.getLeftMenuView());
 		activityRoot.setTop(menuBarController.getView());
+
+		ejercicioController.EjercicioProperty().bind(ListController.selectedExerciseProperty());
+
+		// onActions
+		ListController.getRoot().setOnMouseClicked(e -> {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				if (e.getClickCount() == 2) {
+					activityRoot.setCenter(ejercicioController.getView());
+				}
+			}
+		});
 		
-		//onActions
-		
+		ejercicioController.getReturnButton().setOnAction(e -> {
+			activityRoot.setCenter(ListController.getRoot());
+		});
+
 		menuBarController.getBuscarButton().setOnAction(e -> onBuscarButtonAction(e));
-		
-		//Listeners
-		
+
+		// Listeners
+
 		menuLeftController.getBodypartTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
 			if (ov != nv) {
 				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
@@ -93,7 +111,7 @@ public class RoutineActivityController implements Initializable {
 			ListController.getByName(menuBarController.getBusquedaText().getText(), bodyPart, equipment, target);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}	
+		}
 	}
 
 	public BorderPane getView() {

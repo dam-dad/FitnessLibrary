@@ -17,6 +17,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import dad.fitnesslibrary.classes.Exercise;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,9 @@ import javafx.scene.input.MouseEvent;
 
 public class ListViewController implements Initializable {
 
+	private ObjectProperty<Exercise> selectedExercise = new SimpleObjectProperty<>();
+	private EjercicioController ejercicioController;
+	
 	@FXML
 	private ListView<Exercise> root;
 
@@ -47,6 +52,8 @@ public class ListViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		getAllExercises();
+		selectedExercise.bind(root.getSelectionModel().selectedItemProperty());
+//		ejercicioController.EjercicioProperty().bind(selectedExercise);
 	}
 
 	@FXML
@@ -190,5 +197,20 @@ public class ListViewController implements Initializable {
 	public ListView<Exercise> getRoot() {
 		return root;
 	}
+
+	public final ObjectProperty<Exercise> selectedExerciseProperty() {
+		return this.selectedExercise;
+	}
+	
+
+	public final Exercise getSelectedExercise() {
+		return this.selectedExerciseProperty().get();
+	}
+	
+
+	public final void setSelectedExercise(final Exercise selectedExercise) {
+		this.selectedExerciseProperty().set(selectedExercise);
+	}
+	
 
 }

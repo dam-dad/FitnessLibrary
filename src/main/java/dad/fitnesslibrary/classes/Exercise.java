@@ -9,6 +9,20 @@ public class Exercise {
 	public String name;
 	public String target;
 
+	public Exercise() {
+		super();
+	}
+	
+	public Exercise(String bodyPart, String equipment, String gifUrl, String id, String name, String target) {
+		super();
+		this.bodyPart = bodyPart;
+		this.equipment = equipment;
+		this.gifUrl = gifUrl;
+		this.id = id;
+		this.name = name;
+		this.target = target;
+	}
+
 	public String getBodyPart() {
 		return bodyPart;
 	}
@@ -56,10 +70,10 @@ public class Exercise {
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "bodyPart=" + bodyPart + ",\n equipment=" + equipment + ",\n id=" + id
-				+ ",\n name=" + name + ",\n target=" + target;
+		return "bodyPart=" + bodyPart + ",\n equipment=" + equipment + ",\n id=" + id + ",\n name=" + name
+				+ ",\n target=" + target;
 	}
 }
