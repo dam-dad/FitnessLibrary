@@ -105,10 +105,7 @@ public class RoutineActivityController implements Initializable {
 
 	private void onBuscarButtonAction(ActionEvent e) {
 		try {
-			String bodyPart = menuBarController.getGrupoMuscularCombo().getSelectionModel().getSelectedItem();
-			String equipment = menuBarController.getEquipamientoCombo().getSelectionModel().getSelectedItem();
-			String target = menuBarController.getMusculoConcretoCombo().getSelectionModel().getSelectedItem();
-			ListController.getByName(menuBarController.getBusquedaText().getText(), bodyPart, equipment, target);
+			ListController.getByName(menuBarController.getBusquedaText().getText());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

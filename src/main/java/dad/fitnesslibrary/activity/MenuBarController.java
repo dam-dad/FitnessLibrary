@@ -41,15 +41,6 @@ public class MenuBarController implements Initializable {
 	@FXML
 	private TextField busquedaText;
 
-	@FXML
-	private ComboBox<String> grupoMuscularCombo;
-
-	@FXML
-	private ComboBox<String> musculoConcretoCombo;
-
-	@FXML
-	private ComboBox<String> equipamientoCombo;
-
 	public MenuBarController() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuBar.fxml"));
@@ -62,92 +53,7 @@ public class MenuBarController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		settingComboBoxes();
-	}
-
-	private void settingComboBoxes() {
-		try {
-			getBodyParts();
-			getTargets();
-			getEquipments();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// List of Bodyparts (Robertz)
-	private void getBodyParts() throws IOException {
-		getResponseBodyString("/bodyPartList", TipoComboBox.BODYPART);
-	}
-
-	// List of Targets (Robertz)
-	private void getTargets() throws IOException {
-		getResponseBodyString("/targetList", TipoComboBox.TARGET);
-	}
-
-	// List of Equipments (Robertz)
-	private void getEquipments() throws IOException {
-		getResponseBodyString("/equipmentList", TipoComboBox.EQUIPMENT);
-	}
-
-	private void getResponseBodyString(String parameter, TipoComboBox tipo) throws IOException {
-		Task<List<String>> rbTask = new Task<List<String>>() {
-			@Override
-			protected List<String> call() throws Exception {
-				return gson.fromJson(backgroundCall(parameter), stringListType);
-			}
-		};
-
-		rbTask.setOnSucceeded(e -> {
-			try {
-				List<String> listaString = rbTask.get();
-				switch (tipo) {
-				case BODYPART:
-					grupoMuscularCombo.getItems().addAll(listaString);
-					break;
-
-				case EQUIPMENT:
-					equipamientoCombo.getItems().addAll(listaString);
-					break;
-
-				case TARGET:
-					musculoConcretoCombo.getItems().addAll(listaString);
-					break;
-				}
-			} catch (InterruptedException | ExecutionException e1) {
-				e1.printStackTrace();
-			}
-		});
-
-		rbTask.setOnFailed(e -> {
-			System.err.println(rbTask.getException());
-		});
-
-		new Thread(rbTask).start();
-	}
-
-	private String backgroundCall(String parameter) throws IOException {
-		OkHttpClient client = new OkHttpClient();
-
-		Request request = new Request.Builder().url("https://exercisedb.p.rapidapi.com/exercises" + parameter).get()
-				.addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")
-				.addHeader("x-rapidapi-key", "582862b3a3mshb1f23c0f20232c2p175ea4jsn3aa2ad592392").build();
-
-		Response response = client.newCall(request).execute();
-
-		return response.body().string();
-	}
-	
-	public ComboBox<String> getGrupoMuscularCombo() {
-		return grupoMuscularCombo;
-	}
-
-	public ComboBox<String> getMusculoConcretoCombo() {
-		return musculoConcretoCombo;
-	}
-
-	public ComboBox<String> getEquipamientoCombo() {
-		return equipamientoCombo;
+		
 	}
 
 	public TextField getBusquedaText() {

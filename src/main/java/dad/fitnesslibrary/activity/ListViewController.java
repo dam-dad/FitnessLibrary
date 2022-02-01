@@ -3,9 +3,7 @@ package dad.fitnesslibrary.activity;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
@@ -29,7 +27,6 @@ import javafx.scene.input.MouseEvent;
 public class ListViewController implements Initializable {
 
 	private ObjectProperty<Exercise> selectedExercise = new SimpleObjectProperty<>();
-	private EjercicioController ejercicioController;
 	
 	@FXML
 	private ListView<Exercise> root;
@@ -64,42 +61,42 @@ public class ListViewController implements Initializable {
 	// Get All Exercises
 	public void getAllExercises() {
 		try {
-			getResponseBodyExercise("","","","");
+			getResponseBodyExercise("");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	// Exercises by Name (Adri)
-	public void getByName(String name, String bodyPart, String equipment, String target) throws IOException {
+	public void getByName(String name) throws IOException {
 		name.toLowerCase();
 		name.replaceAll(" ", "%20");
 
-		getResponseBodyExercise("/name/" + name,bodyPart,equipment,target);
+		getResponseBodyExercise("/name/" + name);
 	}
 
 	// Exercises by BodyPart (Javi y Robertz)
 	public void getByBodypart(String bodyPart) throws IOException {
 		bodyPart.replaceAll(" ", "%20");
 
-		getResponseBodyExercise("/bodyPart/" + bodyPart,"","","");
+		getResponseBodyExercise("/bodyPart/" + bodyPart);
 	}
 
 	// Exercises by Target (Javi y Robertz)
 	public void getByTarget(String target) throws IOException {
 		target.replaceAll(" ", "%20");
 
-		getResponseBodyExercise("/target/" + target,"","","");
+		getResponseBodyExercise("/target/" + target);
 	}
 	
 	// Exercises by Equipment (Javi y Robertz)
 	public void getByEquipment(String equipment) throws IOException {
 		equipment.replaceAll(" ", "%20");
 
-		getResponseBodyExercise("/equipment/" + equipment,"","","");
+		getResponseBodyExercise("/equipment/" + equipment);
 	}
 	
-	private void getResponseBodyExercise(String parameter, String bodypart, String equipment, String target) throws IOException {		
+	private void getResponseBodyExercise(String parameter) throws IOException {		
 		Task<List<Exercise>> rbTask = new Task<List<Exercise>>() {
 			@Override
 			protected List<Exercise> call() throws Exception {
@@ -111,10 +108,6 @@ public class ListViewController implements Initializable {
 			try {
 				root.getItems().clear();
 				root.getItems().addAll(rbTask.get());
-				
-				getByBodyPartLocal(bodypart);
-				getByEquipmentLocal(equipment);
-				getByTargetLocal(target);
 			} catch (InterruptedException | ExecutionException e1) {
 				e1.printStackTrace();
 			}
@@ -126,60 +119,6 @@ public class ListViewController implements Initializable {
 		
 		Thread thread = new Thread(rbTask);
 		thread.start();
-	}
-	
-	public void getByBodyPartLocal(String bodyPart) {
-		List<Exercise> list = new ArrayList<Exercise>();
-		
-		if (!Objects.isNull(bodyPart)) {
-			Exercise e;
-			for (int i = 0; i < root.getItems().size(); i++) {
-				e = root.getItems().get(i);
-				if (e.getBodyPart().equals(bodyPart)) {
-					list.add(e);
-				}
-			}
-			if (list.size() > 0) {
-				root.getItems().clear();
-				root.getItems().addAll(list);
-			}
-		}
-	}
-	
-	public void getByEquipmentLocal(String equipment) {
-		List<Exercise> list = new ArrayList<Exercise>();
-		
-		if (!Objects.isNull(equipment)) {
-			Exercise e;
-			for (int i = 0; i < root.getItems().size(); i++) {
-				e = root.getItems().get(i);
-				if (e.getBodyPart().equals(equipment)) {
-					list.add(e);
-				}
-			}
-			if (list.size() > 0) {
-				root.getItems().clear();
-				root.getItems().addAll(list);
-			}
-		}
-	}
-	
-	public void getByTargetLocal(String target) {
-		List<Exercise> list = new ArrayList<Exercise>();
-		
-		if (!Objects.isNull(target)) {
-			Exercise e;
-			for (int i = 0; i < root.getItems().size(); i++) {
-				e = root.getItems().get(i);
-				if (e.getBodyPart().equals(target)) {
-					list.add(e);
-				}
-			}
-			if (list.size() > 0) {
-				root.getItems().clear();
-				root.getItems().addAll(list);
-			}
-		}
 	}
 	
 	private String backgroundCall(String parameter) throws IOException {
