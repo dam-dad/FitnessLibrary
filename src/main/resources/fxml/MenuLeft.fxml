@@ -5,14 +5,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <ScrollPane fx:id="LeftMenuView" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
             <VBox fx:id="equipamientoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                <children>
-                  <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipamiento" textAlignment="CENTER">
+                  <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipment" textAlignment="CENTER">
                      <opaqueInsets>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </opaqueInsets>
@@ -42,7 +41,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </opaqueInsets>
                <children>
-                  <Label style="-fx-font-weight: bold;" text="Grupo Muscular" />
+                  <Label style="-fx-font-weight: bold;" text="Muscular Group" />
                </children>
             </VBox>
             <VBox fx:id="musculoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
@@ -56,7 +55,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </opaqueInsets>
                <children>
-                  <Label style="-fx-font-weight: bold;" text="Músculo" />
+                  <Label style="-fx-font-weight: bold;" text="Muscle" />
                </children>
             </VBox>
          </children>
