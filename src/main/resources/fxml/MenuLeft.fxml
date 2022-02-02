@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane fx:id="LeftMenuView" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fx:id="LeftMenuView" fitToHeight="true" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <VBox alignment="CENTER_LEFT" spacing="5.0">
+      <VBox alignment="TOP_CENTER" spacing="5.0">
          <children>
-            <VBox fx:id="equipamientoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
-               <children>
-                  <Label alignment="TOP_CENTER" style="-fx-font-weight: bold;" text="Equipment" textAlignment="CENTER">
+            <TitledPane alignment="TOP_LEFT" text="Equipment" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <content>
+                  <VBox fx:id="equipamientoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                      <opaqueInsets>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </opaqueInsets>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-               </children>
+                  </VBox>
+               </content>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TitledPane>
+            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscular Group" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </opaqueInsets>
-            </VBox>
-            <VBox fx:id="grupoMuscularVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
+               <content>
+                  <VBox fx:id="grupoMuscularVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscle" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </opaqueInsets>
-               <children>
-                  <Label style="-fx-font-weight: bold;" text="Muscular Group" />
-               </children>
-            </VBox>
-            <VBox fx:id="musculoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </opaqueInsets>
-               <children>
-                  <Label style="-fx-font-weight: bold;" text="Muscle" />
-               </children>
-            </VBox>
+               <content>
+                  <VBox fx:id="musculoVBox" prefHeight="200.0" prefWidth="150.0" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+               </content>
+            </TitledPane>
          </children>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
