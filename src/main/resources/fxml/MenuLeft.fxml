@@ -10,7 +10,7 @@
    <content>
       <VBox alignment="TOP_CENTER" spacing="5.0">
          <children>
-            <TitledPane alignment="TOP_LEFT" text="Equipment" VBox.vgrow="ALWAYS">
+            <TitledPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Equipment" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -28,7 +28,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </TitledPane>
-            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscular Group" VBox.vgrow="ALWAYS">
+            <TitledPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Muscular Group" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -43,7 +43,7 @@
                   </VBox>
                </content>
             </TitledPane>
-            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscle" VBox.vgrow="ALWAYS">
+            <TitledPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Muscle" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
