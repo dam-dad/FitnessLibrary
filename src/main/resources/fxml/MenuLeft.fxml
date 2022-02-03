@@ -11,49 +11,46 @@
    <content>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
          <children>
-            <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-              <panes>
-                  <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscle">
-                     <content>
-                        <VBox fx:id="musculoVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" style="-fx-font-weight: normal;">
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <opaqueInsets>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </opaqueInsets>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane alignment="TOP_LEFT" text="Equipment">
-                     <content>
-                        <VBox fx:id="equipamientoVBox" spacing="5.0" style="-fx-font-weight: normal;">
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <opaqueInsets>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </opaqueInsets>
-                        </VBox>
-                     </content>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </TitledPane>
-                  <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscular Group">
-                     <content>
-                        <VBox fx:id="grupoMuscularVBox" spacing="5.0" style="-fx-font-weight: normal;">
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <opaqueInsets>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </opaqueInsets>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-              </panes>
-            </Accordion>
+            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscle">
+               <content>
+                  <VBox fx:id="musculoVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane alignment="TOP_LEFT" style="-fx-font-weight: bold;" text="Muscular Group">
+               <content>
+                  <VBox fx:id="grupoMuscularVBox" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane alignment="TOP_LEFT" text="Equipment">
+               <content>
+                  <VBox fx:id="equipamientoVBox" spacing="5.0" style="-fx-font-weight: normal;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+               </content>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TitledPane>
+            <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
          </children>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
