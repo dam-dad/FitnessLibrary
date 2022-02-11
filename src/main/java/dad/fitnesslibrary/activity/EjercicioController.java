@@ -62,9 +62,9 @@ public class EjercicioController implements Initializable {
 		if(nv != ov)
 		{
 			nameExerciseLabel.setText(nv.getName());
-			textExerciseLabel.setText("Grupo muscular: "+nv.getBodyPart() +"\n"+
-									"Equipamiento: "+nv.getEquipment()+"\n"+
-									"Parte del cuerpo: "+nv.getTarget());
+			textExerciseLabel.setText("Muscle Group: "+nv.getBodyPart() +"\n"+
+									"Equipment: "+nv.getEquipment()+"\n"+
+									"Muscle: "+nv.getTarget());
 			cargarImagen = new Task<Void>() {
 				@Override
 	    		protected Void call() throws Exception {

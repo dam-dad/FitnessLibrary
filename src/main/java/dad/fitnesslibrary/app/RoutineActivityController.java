@@ -8,8 +8,6 @@ import dad.fitnesslibrary.activity.EjercicioController;
 import dad.fitnesslibrary.activity.ListViewController;
 import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Toggle;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 
@@ -105,10 +102,7 @@ public class RoutineActivityController implements Initializable {
 
 	private void onBuscarButtonAction(ActionEvent e) {
 		try {
-			String bodyPart = menuBarController.getGrupoMuscularCombo().getSelectionModel().getSelectedItem();
-			String equipment = menuBarController.getEquipamientoCombo().getSelectionModel().getSelectedItem();
-			String target = menuBarController.getMusculoConcretoCombo().getSelectionModel().getSelectedItem();
-			ListController.getByName(menuBarController.getBusquedaText().getText(), bodyPart, equipment, target);
+			ListController.getByName(menuBarController.getBusquedaText().getText());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
