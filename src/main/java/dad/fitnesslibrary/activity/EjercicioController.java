@@ -2,6 +2,7 @@ package dad.fitnesslibrary.activity;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import dad.fitnesslibrary.classes.Exercise;
@@ -59,7 +60,7 @@ public class EjercicioController implements Initializable {
 	}
 	private void onEjercicioChanged(ObservableValue<? extends Exercise> o, Exercise ov, Exercise nv) {
 		
-		if(nv != ov)
+		if(nv != ov && Objects.nonNull(nv))
 		{
 			nameExerciseLabel.setText(nv.getName());
 			textExerciseLabel.setText("Muscle Group: "+nv.getBodyPart() +"\n"+

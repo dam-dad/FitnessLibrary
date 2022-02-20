@@ -17,28 +17,46 @@ import com.squareup.okhttp.Response;
 import dad.fitnesslibrary.classes.Exercise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 
-public class ListViewController implements Initializable {
+public class TableViewController implements Initializable {
 
 	private ObjectProperty<Exercise> selectedExercise = new SimpleObjectProperty<>();
 	
 	@FXML
-	private ListView<Exercise> root;
+    private TableColumn<Exercise, String> idColumn;
+	
+	@FXML
+    private TableColumn<Exercise, String> nameColumn;
+	
+	@FXML
+    private TableColumn<Exercise, String> equipmentColumn;
+	
+	@FXML
+    private TableColumn<Exercise, String> bodypartColumn;
+
+    @FXML
+    private TableColumn<Exercise, String> targetColumn;
+    
+    @FXML
+    private TableView<Exercise> root;
 
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private final Type exerciseListType = new TypeToken<List<Exercise>>() {
 	}.getType();
 	
-	public ListViewController() {
+	public TableViewController() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListViewExercises.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableViewExercises.fxml"));
 			loader.setController(this);
 			loader.load();
 		} catch (IOException e) {
@@ -48,6 +66,11 @@ public class ListViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		idColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getId()));
+		nameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getName()));
+		equipmentColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipment()));
+		bodypartColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBodyPart()));
+		targetColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTarget()));
 		getAllExercises();
 		selectedExercise.bind(root.getSelectionModel().selectedItemProperty());
 //		ejercicioController.EjercicioProperty().bind(selectedExercise);
@@ -133,7 +156,7 @@ public class ListViewController implements Initializable {
 		return response.body().string();
 	}
 
-	public ListView<Exercise> getRoot() {
+	public TableView<Exercise> getRoot() {
 		return root;
 	}
 

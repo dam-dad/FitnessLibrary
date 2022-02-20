@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dad.fitnesslibrary.activity.EjercicioController;
-import dad.fitnesslibrary.activity.ListViewController;
+import dad.fitnesslibrary.activity.TableViewController;
 import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
 import javafx.event.ActionEvent;
@@ -35,7 +35,7 @@ public class RoutineActivityController implements Initializable {
 	@FXML
 	private BorderPane view;
 
-	private ListViewController ListController;
+	private TableViewController ListController;
 
 	private MenuLeftController menuLeftController;
 
@@ -50,7 +50,7 @@ public class RoutineActivityController implements Initializable {
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		ListController = new ListViewController();
+		ListController = new TableViewController();
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
 		ejercicioController = new EjercicioController();
