@@ -69,7 +69,7 @@ public class EjercicioController implements Initializable {
 			cargarImagen = new Task<Void>() {
 				@Override
 	    		protected Void call() throws Exception {
-					gifImage.setImage(new Image(nv.gifUrl));
+					gifImage.setImage(new Image(nv.getGifUrl()));
 					return null;
 				}
 				

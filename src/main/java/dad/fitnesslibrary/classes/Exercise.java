@@ -2,12 +2,12 @@ package dad.fitnesslibrary.classes;
 
 public class Exercise {
 
-	public String bodyPart;
-	public String equipment;
-	public String gifUrl;
-	public String id;
-	public String name;
-	public String target;
+	private String bodyPart;
+	private String equipment;
+	private String gifUrl;
+	private String id;
+	private String name;
+	private String target;
 
 	public Exercise() {
 		super();

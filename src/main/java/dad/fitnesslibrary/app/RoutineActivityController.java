@@ -35,7 +35,7 @@ public class RoutineActivityController implements Initializable {
 	@FXML
 	private BorderPane view;
 
-	private TableViewController ListController;
+	private TableViewController TableViewController;
 
 	private MenuLeftController menuLeftController;
 
@@ -50,19 +50,19 @@ public class RoutineActivityController implements Initializable {
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		ListController = new TableViewController();
+		TableViewController = new TableViewController();
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
 		ejercicioController = new EjercicioController();
 
-		activityRoot.setCenter(ListController.getRoot());
+		activityRoot.setCenter(TableViewController.getRoot());
 		activityRoot.setLeft(menuLeftController.getLeftMenuView());
 		activityRoot.setTop(menuBarController.getView());
 
-		ejercicioController.EjercicioProperty().bind(ListController.selectedExerciseProperty());
+		ejercicioController.EjercicioProperty().bind(TableViewController.selectedExerciseProperty());
 
 		// onActions
-		ListController.getRoot().setOnMouseClicked(e -> {
+		TableViewController.getRoot().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
 					activityRoot.setCenter(ejercicioController.getView());
@@ -71,7 +71,7 @@ public class RoutineActivityController implements Initializable {
 		});
 		
 		ejercicioController.getReturnButton().setOnAction(e -> {
-			activityRoot.setCenter(ListController.getRoot());
+			activityRoot.setCenter(TableViewController.getRoot());
 		});
 
 		menuBarController.getBuscarButton().setOnAction(e -> onBuscarButtonAction(e));
@@ -102,7 +102,7 @@ public class RoutineActivityController implements Initializable {
 
 	private void onBuscarButtonAction(ActionEvent e) {
 		try {
-			ListController.getByName(menuBarController.getBusquedaText().getText());
+			TableViewController.getByName(menuBarController.getBusquedaText().getText());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

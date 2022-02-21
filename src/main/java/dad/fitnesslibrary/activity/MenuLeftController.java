@@ -3,9 +3,13 @@ package dad.fitnesslibrary.activity;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +23,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
@@ -37,9 +42,19 @@ public class MenuLeftController implements Initializable {
 
 	private ToggleGroup targetTG = new ToggleGroup();
 	
+	private static List<CheckBox> bodypartCheckBoxes;
+	
+	private static List<CheckBox> equipmentCheckBoxes;
+	
+	private static List<CheckBox> targetCheckBoxes;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		generateRadioButtons();
+		
+		bodypartCheckBoxes = new ArrayList<CheckBox>();
+		equipmentCheckBoxes = new ArrayList<CheckBox>();
+		targetCheckBoxes = new ArrayList<CheckBox>();
 		
 		equipmentTG.selectedToggleProperty().addListener((obv, ov, nv) -> {
 			if (ov != nv) {
@@ -82,6 +97,16 @@ public class MenuLeftController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public static ArrayList<String> CheckBoxesUncheked() {
+		ArrayList<String> stringSelected = new ArrayList<String>();
+		for (CheckBox chk : targetCheckBoxes) {
+			if (chk.isSelected()) {
+				stringSelected.add(chk.getText());
+			}
+		}
+		return stringSelected;
+	}
 
 	// List of Bodyparts (Robertz)
 	public void getBodyParts() throws IOException {
@@ -111,29 +136,25 @@ public class MenuLeftController implements Initializable {
 				List<String> listaString = rbTask.get();
 				switch (tipo) {
 				case BODYPART:
-					bodypartTG = new ToggleGroup();
 					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(bodypartTG);
-						grupoMuscularVBox.getChildren().add(radioButton);
+						CheckBox bodypartCHK = new CheckBox(s);
+						grupoMuscularVBox.getChildren().add(bodypartCHK);
 					}
 					break;
 
 				case EQUIPMENT:
-					equipmentTG = new ToggleGroup();
 					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(equipmentTG);
-						equipamientoVBox.getChildren().add(radioButton);
+						CheckBox equipmentCHK = new CheckBox(s);
+						equipamientoVBox.getChildren().add(equipmentCHK);
 					}
 					break;
 
 				case TARGET:
-					targetTG = new ToggleGroup();
 					for (String s : listaString) {
-						RadioButton radioButton = new RadioButton(s);
-						radioButton.setToggleGroup(targetTG);
-						musculoVBox.getChildren().add(radioButton);
+						CheckBox targetCHK = new CheckBox(s);
+						targetCheckBoxes.add(targetCHK);
+						targetCHK.selectedProperty().addListener((obv, ov, nv) -> TableViewController.onTargetCHKChanged(obv,ov,nv,s));
+						musculoVBox.getChildren().add(targetCHK);
 					}
 					break;
 				}

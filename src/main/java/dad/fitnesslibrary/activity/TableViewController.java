@@ -3,6 +3,7 @@ package dad.fitnesslibrary.activity;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -15,14 +16,16 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import dad.fitnesslibrary.classes.Exercise;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -48,10 +51,14 @@ public class TableViewController implements Initializable {
     
     @FXML
     private TableView<Exercise> root;
+    
+    private static ListProperty<Exercise> exerciseList;
+    
+    private static ListProperty<Exercise> exerciseListAux;
 
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	private final Type exerciseListType = new TypeToken<List<Exercise>>() {
+	private final static Type exerciseListType = new TypeToken<List<Exercise>>() {
 	}.getType();
 	
 	public TableViewController() {
@@ -66,13 +73,18 @@ public class TableViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		exerciseList = new SimpleListProperty<>();
+		exerciseListAux = new SimpleListProperty<>();
+		
 		idColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getId()));
 		nameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getName()));
 		equipmentColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipment()));
 		bodypartColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBodyPart()));
 		targetColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTarget()));
 		getAllExercises();
+		
 		selectedExercise.bind(root.getSelectionModel().selectedItemProperty());
+		
 //		ejercicioController.EjercicioProperty().bind(selectedExercise);
 	}
 
@@ -89,6 +101,22 @@ public class TableViewController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	public static void onTargetCHKChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String targetString) {
+		if (nv) {
+			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
+			ArrayList<String> checboxesSeleccionados = MenuLeftController.CheckBoxesUncheked();
+			for (Exercise e : exerciseListAux) {
+				if (checboxesSeleccionados.contains(e.getTarget())) {
+					ejerciciosSeleccionados.add(e);
+				}
+			}
+			exerciseList.clear();
+			exerciseList.addAll(ejerciciosSeleccionados);
+		}
+	}
 
 	// Exercises by Name (Adri)
 	public void getByName(String name) throws IOException {
@@ -98,26 +126,26 @@ public class TableViewController implements Initializable {
 		getResponseBodyExercise("/name/" + name);
 	}
 
-	// Exercises by BodyPart (Javi y Robertz)
-	public void getByBodypart(String bodyPart) throws IOException {
-		bodyPart.replaceAll(" ", "%20");
-
-		getResponseBodyExercise("/bodyPart/" + bodyPart);
-	}
-
-	// Exercises by Target (Javi y Robertz)
-	public void getByTarget(String target) throws IOException {
-		target.replaceAll(" ", "%20");
-
-		getResponseBodyExercise("/target/" + target);
-	}
-	
-	// Exercises by Equipment (Javi y Robertz)
-	public void getByEquipment(String equipment) throws IOException {
-		equipment.replaceAll(" ", "%20");
-
-		getResponseBodyExercise("/equipment/" + equipment);
-	}
+//	// Exercises by BodyPart (Javi y Robertz)
+//	public void getByBodypart(String bodyPart) throws IOException {
+//		bodyPart.replaceAll(" ", "%20");
+//
+//		getResponseBodyExercise("/bodyPart/" + bodyPart);
+//	}
+//
+//	// Exercises by Target (Javi y Robertz)
+//	public void getByTarget(String target) throws IOException {
+//		target.replaceAll(" ", "%20");
+//
+//		getResponseBodyExercise("/target/" + target);
+//	}
+//	
+//	// Exercises by Equipment (Javi y Robertz)
+//	public void getByEquipment(String equipment) throws IOException {
+//		equipment.replaceAll(" ", "%20");
+//
+//		getResponseBodyExercise("/equipment/" + equipment);
+//	}
 	
 	private void getResponseBodyExercise(String parameter) throws IOException {		
 		Task<List<Exercise>> rbTask = new Task<List<Exercise>>() {
@@ -131,6 +159,8 @@ public class TableViewController implements Initializable {
 			try {
 				root.getItems().clear();
 				root.getItems().addAll(rbTask.get());
+				exerciseList.bind(root.itemsProperty());
+				exerciseListAux = new SimpleListProperty<>(exerciseList);
 			} catch (InterruptedException | ExecutionException e1) {
 				e1.printStackTrace();
 			}
@@ -144,7 +174,7 @@ public class TableViewController implements Initializable {
 		thread.start();
 	}
 	
-	private String backgroundCall(String parameter) throws IOException {
+	private static String backgroundCall(String parameter) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 
 		Request request = new Request.Builder().url("https://exercisedb.p.rapidapi.com/exercises" + parameter).get()
@@ -173,6 +203,8 @@ public class TableViewController implements Initializable {
 	public final void setSelectedExercise(final Exercise selectedExercise) {
 		this.selectedExerciseProperty().set(selectedExercise);
 	}
+
+	
 	
 
 }
