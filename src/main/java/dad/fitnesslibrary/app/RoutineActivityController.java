@@ -59,7 +59,7 @@ public class RoutineActivityController implements Initializable {
 		ejercicioController = new EjercicioController();
 		mainMenuController = new MainMenuController();
 
-		view.setCenter(mainMenuController.getMainIMGPane());
+		view.setCenter(mainMenuController.getRootGridPane());
 		
 		activityRoot.setCenter(TableViewController.getRoot());
 		activityRoot.setLeft(menuLeftController.getLeftMenuView());
@@ -68,6 +68,10 @@ public class RoutineActivityController implements Initializable {
 		ejercicioController.EjercicioProperty().bind(TableViewController.selectedExerciseProperty());
 
 		// onActions
+		mainMenuController.getBtn_Start().setOnAction(e -> {
+			view.setCenter(mainView);
+		});
+		
 		TableViewController.getRoot().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {

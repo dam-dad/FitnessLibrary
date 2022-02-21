@@ -17,35 +17,19 @@ import javafx.scene.layout.Pane;
 public class MainMenuController implements Initializable {
 	
     @FXML
-    private ImageView imageViewMain;
-    
-
-    @FXML
-    private Pane MainIMGPane;
-    
-    @FXML
-    private GridPane GridPaneMenu;
-    
-    @FXML
     private Button btn_Exit;
 
     @FXML
     private Button btn_Start;
 
     @FXML
+    private GridPane rootGridPane;
+
+    @FXML
     void onClickExit(ActionEvent event) {
     	System.exit(0);
     }
-
-    @FXML
-    void onClickStart(ActionEvent event) {
-
-    }
-
-
     
-    
-
 	public MainMenuController() {
 		super();
 		try {
@@ -53,7 +37,6 @@ public class MainMenuController implements Initializable {
 			loader.setController(this);
 			loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -62,24 +45,15 @@ public class MainMenuController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		getImageViewMain().fitWidthProperty().bind(MainIMGPane.prefWidthProperty());
-		getImageViewMain().fitHeightProperty().bind(MainIMGPane.prefHeightProperty());
-		
-
-	}
-	
-
-	public ImageView getImageViewMain() {
-		return imageViewMain;
+//		getImageViewMain().fitWidthProperty().bind(MainIMGPane.prefWidthProperty());
+//		getImageViewMain().fitHeightProperty().bind(MainIMGPane.prefHeightProperty());
 	}
 
-	public Pane getMainIMGPane() {
-		return MainIMGPane;
+	public Button getBtn_Start() {
+		return btn_Start;
 	}
 
-	public GridPane getGridPaneMenu() {
-		return GridPaneMenu;
+	public GridPane getRootGridPane() {
+		return rootGridPane;
 	}
-	
-
 }

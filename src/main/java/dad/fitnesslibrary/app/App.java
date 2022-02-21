@@ -18,10 +18,6 @@ public class App extends Application {
 		primaryStage.show();
 		
 		
-		raC.getMainMenuController().getImageViewMain().fitWidthProperty().bind(primaryStage.widthProperty());
-		raC.getMainMenuController().getImageViewMain().fitHeightProperty().bind(primaryStage.heightProperty());
-
-
 	}
 
 	public static void main(String[] args) {
