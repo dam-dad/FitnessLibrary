@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import dad.fitnesslibrary.activity.EjercicioController;
 import dad.fitnesslibrary.activity.TableViewController;
-import dad.fitnesslibrary.mainMenu.MainMenuController;
 import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
 import javafx.event.ActionEvent;
@@ -18,13 +17,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 public class RoutineActivityController implements Initializable {
-	
-
-    @FXML
-    private Pane MainPane;
 
 	@FXML
 	private BorderPane activityRoot;
@@ -48,8 +42,6 @@ public class RoutineActivityController implements Initializable {
 	private MenuBarController menuBarController;
 
 	private EjercicioController ejercicioController;
-	
-	//private MainMenuController mainMenuController;
 
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
@@ -62,10 +54,7 @@ public class RoutineActivityController implements Initializable {
 		menuLeftController = new MenuLeftController();
 		menuBarController = new MenuBarController();
 		ejercicioController = new EjercicioController();
-		//mainMenuController = new MainMenuController();
 
-		//MainPane.getChildren().add(0, mainMenuController.getImageViewMain());
-		
 		activityRoot.setCenter(TableViewController.getRoot());
 		activityRoot.setLeft(menuLeftController.getLeftMenuView());
 		activityRoot.setTop(menuBarController.getView());
@@ -119,18 +108,7 @@ public class RoutineActivityController implements Initializable {
 		}
 	}
 
-	
-	/*public MainMenuController getMainMenuController() {
-		return mainMenuController;
-	}*/
-
 	public BorderPane getView() {
 		return view;
 	}
-
-	public Pane getMainPane() {
-		return MainPane;
-	}
-	
-	
 }
