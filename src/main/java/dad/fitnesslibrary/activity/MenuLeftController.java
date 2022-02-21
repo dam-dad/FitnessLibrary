@@ -98,7 +98,7 @@ public class MenuLeftController implements Initializable {
 		}
 	}
 	
-	public static ArrayList<String> CheckBoxesUncheked() {
+	public static ArrayList<String> targetCheckBoxesUncheked() {
 		ArrayList<String> stringSelected = new ArrayList<String>();
 		for (CheckBox chk : targetCheckBoxes) {
 			if (chk.isSelected()) {
@@ -145,6 +145,8 @@ public class MenuLeftController implements Initializable {
 				case EQUIPMENT:
 					for (String s : listaString) {
 						CheckBox equipmentCHK = new CheckBox(s);
+						equipmentCheckBoxes.add(equipmentCHK);
+						equipmentCHK.selectedProperty().addListener((obv, ov, nv) -> TableViewController.onEquipmentChanged(obv, ov, nv,s));
 						equipamientoVBox.getChildren().add(equipmentCHK);
 					}
 					break;

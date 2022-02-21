@@ -12,7 +12,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		raC = new RoutineActivityController();
-
+		
 		primaryStage.setTitle("Fitness Library");
 		primaryStage.setScene(new Scene(raC.getView()));
 		primaryStage.show();

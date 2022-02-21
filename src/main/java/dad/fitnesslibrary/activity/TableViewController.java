@@ -102,12 +102,15 @@ public class TableViewController implements Initializable {
 		}
 	}
 	
-	
+	public static Object onEquipmentChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	public static void onTargetCHKChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String targetString) {
 		if (nv) {
 			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
-			ArrayList<String> checboxesSeleccionados = MenuLeftController.CheckBoxesUncheked();
+			ArrayList<String> checboxesSeleccionados = MenuLeftController.targetCheckBoxesUncheked();
 			for (Exercise e : exerciseListAux) {
 				if (checboxesSeleccionados.contains(e.getTarget())) {
 					ejerciciosSeleccionados.add(e);
@@ -203,8 +206,4 @@ public class TableViewController implements Initializable {
 	public final void setSelectedExercise(final Exercise selectedExercise) {
 		this.selectedExerciseProperty().set(selectedExercise);
 	}
-
-	
-	
-
 }
