@@ -1,0 +1,133 @@
+/*GENERAL */
+.root{
+	-fx-background-color: #6e6e6e;
+	-fx-font-family: monospace;
+	-fx-hgap: 1.0px;
+	-fx-vgap: 1.0px;
+}
+
+.label{
+	-fx-text-fill: #ee416c;
+	-fx-graphic-text-gap: 20.0; 
+	-fx-wrap-text: true;
+}
+
+.button{
+	-fx-text-fill: white;
+	-fx-background-color: darkgrey;
+}
+
+.button:hover{
+	-fx-text-fill: white;
+	-fx-background-color: #ee416c;
+}
+
+.button:pressed{
+	-fx-text-fill: white;
+	-fx-background-color: #9f0a2f;
+}
+
+.imageview{
+	-fx-effect: dropshadow(gaussian, #ee416c, 10.0, 0.2, 3.0, 3.0)
+}
+
+
+
+
+
+
+
+
+/******************/
+/* Ejercicio concreto*/
+#textExerciseLabel{
+	-fx-text-fill: #ee416c;
+	-fx-graphic-text-gap: 20.0; 
+	-fx-wrap-text: true;
+	-fx-font-size: 40.0; 
+}
+.imageview{
+	-fx-border-radius: 5px;
+	fx-border-image-width: 50px; 
+	-fx-border-color: #ff0000;
+}
+
+#nameExerciseLabel{
+	-fx-text-fill: #800020;
+	-fx-font-size: 40.0; 
+	-fx-wrap-text: true;
+	-fx-effect: dropshadow(gaussian, #ee416c, 10.0, 0.2, 3.0, 3.0)
+}
+
+
+
+
+
+
+
+
+
+
+/***************** */
+/*TableView Exercises */
+.column-header{
+	-fx-size: 50;
+	-fx-font-size: 15.0;
+	-fx-text-fill: #d22d56;
+	-fx-effect: dropshadow(gaussian, #ee416c, 10.0, 0.2, 3.0, 3.0);
+	-fx-background-color: darkgrey;
+	-fx-background-radius: 10px;
+	-fx-background-insets: 15px;
+	
+}
+.table-cell{
+	-fx-text-fill: #ee416c;
+	-fx-background-color: transparent;
+}
+.table-view{
+	-fx-background-color: transparent;
+	-fx-font-size: 15.0;
+	-fx-font-family: Arial, Helvetica, sans-serif;
+}
+.table-view:row-selection .table-row-cell{
+		-fx-background-color: transparent;
+		-fx-font-color: white;
+		-fx-background-radius: 5px;
+		-fx-background-insets: 2px;
+}
+.table-view:row-selection .table-row-cell:filled:hover { 
+    -fx-background-color: darkgrey;
+    -fx-text-fill: white;
+}
+.table-view:row-selection .table-row-cell:filled:selected { 
+    -fx-background-color: #800020;
+    -fx-text-fill: white;
+}
+.table-row-cell:odd {
+    -fx-background-color: darkgrey;
+}
+
+
+
+
+
+
+
+
+
+/* **********/
+/* Menu Bar*/
+.menu-bar{
+	-fx-background-color: transparent;
+}
+.menu-bar:hover{
+	-fx-background-color: transparent;
+}
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+	-fx-background-color: transparent;
+}
+.text-field{
+	-fx-background-color: #ee416c;
+	-fx-text-fill: white;
+	-fx-text-border: red;
+}

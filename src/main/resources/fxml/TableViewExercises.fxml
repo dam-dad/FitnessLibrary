@@ -3,8 +3,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-
-<TableView fx:id="root" onMouseClicked="#onRootDoubleClicked" prefHeight="358.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<TableView fx:id="root" onMouseClicked="#onRootDoubleClicked" prefHeight="358.0" prefWidth="478.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
     <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
     <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
