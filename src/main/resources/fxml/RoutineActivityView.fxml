@@ -4,20 +4,27 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="527.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <TabPane fx:id="mainView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="200.0" tabMinWidth="200.0" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab fx:id="routineTab" text="Routine" />
-          <Tab fx:id="activityTab" text="Activity">
-               <content>
-                  <BorderPane fx:id="activityRoot" />
-               </content></Tab>
-        </tabs>
-      </TabPane>
-   </center>
-   <bottom>
-      <ListView orientation="HORIZONTAL" prefHeight="0.0" prefWidth="636.0" BorderPane.alignment="CENTER" />
-   </bottom>
-</BorderPane>
+
+<Pane fx:id="MainPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="527.0" prefWidth="636.0">
+         <center>
+            <TabPane fx:id="mainView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="200.0" tabMinWidth="200.0" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab fx:id="routineTab" text="Routine" />
+                <Tab fx:id="activityTab" text="Activity">
+                     <content>
+                        <BorderPane fx:id="activityRoot" />
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+         <bottom>
+            <ListView orientation="HORIZONTAL" prefHeight="0.0" prefWidth="636.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </children>
+</Pane>

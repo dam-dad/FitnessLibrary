@@ -14,8 +14,11 @@ public class App extends Application {
 		raC = new RoutineActivityController();
 
 		primaryStage.setTitle("Fitness Library");
-		primaryStage.setScene(new Scene(raC.getView()));
+		primaryStage.setScene(new Scene(raC.getMainPane()));
 		primaryStage.show();
+		
+		//raC.getMainMenuController().getImageViewMain().fitWidthProperty().bind(primaryStage.widthProperty());
+		//raC.getMainMenuController().getImageViewMain().fitHeightProperty().bind(primaryStage.heightProperty());
 
 	}
 
