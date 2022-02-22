@@ -21,10 +21,7 @@
       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="206.0" />
    </columnConstraints>
    <children>
-      <ListView fx:id="rutinasListView" prefHeight="269.0" prefWidth="429.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></ListView>
+      <ListView fx:id="rutinasListView" prefHeight="269.0" prefWidth="429.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
       <Label id="Rutina" stylesheets="@../css/Routine.css" text="Saved Routines" GridPane.columnSpan="2147483647">
          <font>
             <Font size="28.0" />
