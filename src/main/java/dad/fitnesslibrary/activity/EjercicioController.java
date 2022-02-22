@@ -35,6 +35,9 @@ public class EjercicioController implements Initializable {
 	private Label nameExerciseLabel;
 
 	@FXML
+    private Button addToRoutineButton;
+	
+	@FXML
 	private Label textExerciseLabel;
 
 	@FXML
@@ -100,6 +103,9 @@ public class EjercicioController implements Initializable {
 		return this.Ejercicio;
 	}
 	
+	public Button getAddToRoutineButton() {
+		return addToRoutineButton;
+	}
 
 	public final Exercise getEjercicio() {
 		return this.EjercicioProperty().get();
