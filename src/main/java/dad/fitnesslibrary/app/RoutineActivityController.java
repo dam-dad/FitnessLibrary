@@ -7,9 +7,12 @@ import java.util.ResourceBundle;
 import dad.fitnesslibrary.activity.EjercicioController;
 import dad.fitnesslibrary.activity.TableViewController;
 import dad.fitnesslibrary.mainMenu.MainMenuController;
+import dad.fitnesslibrary.routine.ListRoutinesController;
+import dad.fitnesslibrary.routine.RoutineController;
 import dad.fitnesslibrary.activity.MenuBarController;
 import dad.fitnesslibrary.activity.MenuLeftController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,6 +48,8 @@ public class RoutineActivityController implements Initializable {
 	private EjercicioController ejercicioController;
 	
 	private MainMenuController mainMenuController;
+	
+	private ListRoutinesController listRoutinesController;
 
 	public RoutineActivityController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RoutineActivityView.fxml"));
@@ -58,7 +63,10 @@ public class RoutineActivityController implements Initializable {
 		menuBarController = new MenuBarController();
 		ejercicioController = new EjercicioController();
 		mainMenuController = new MainMenuController();
+		listRoutinesController = new ListRoutinesController();
 
+		routineTab.setContent(listRoutinesController.getRoot());
+		
 		view.setCenter(mainMenuController.getRootGridPane());
 		
 		activityRoot.setCenter(TableViewController.getRoot());
@@ -71,6 +79,19 @@ public class RoutineActivityController implements Initializable {
 		mainMenuController.getBtn_Start().setOnAction(e -> {
 			view.setCenter(mainView);
 		});
+		
+		listRoutinesController.getRoutineController().getBackButton().setOnAction(e -> {
+			routineTab.setContent(listRoutinesController.getRoot());
+		});
+		
+		listRoutinesController.getRutinasListView().setOnMouseClicked(e -> {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				if (e.getClickCount() == 2) {
+					routineTab.setContent(listRoutinesController.getRoutineController().getRoot());
+				}
+			}
+		});
+		
 		
 		TableViewController.getRoot().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {

@@ -102,9 +102,32 @@ public class TableViewController implements Initializable {
 		}
 	}
 	
-	public static Object onEquipmentChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
-		// TODO Auto-generated method stub
-		return null;
+	public static void onBodyPartChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
+		if (nv) {
+			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
+			ArrayList<String> checboxesSeleccionados = MenuLeftController.bodyPartCheckBoxesUncheked();
+			for (Exercise e : exerciseListAux) {
+				if (checboxesSeleccionados.contains(e.getTarget())) {
+					ejerciciosSeleccionados.add(e);
+				}
+			}
+			exerciseList.clear();
+			exerciseList.addAll(ejerciciosSeleccionados);
+		}
+	}
+	
+	public static void onEquipmentChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
+		if (nv) {
+			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
+			ArrayList<String> checboxesSeleccionados = MenuLeftController.equipmentCheckBoxesUncheked();
+			for (Exercise e : exerciseListAux) {
+				if (checboxesSeleccionados.contains(e.getTarget())) {
+					ejerciciosSeleccionados.add(e);
+				}
+			}
+			exerciseList.clear();
+			exerciseList.addAll(ejerciciosSeleccionados);
+		}
 	}
 	
 	public static void onTargetCHKChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String targetString) {

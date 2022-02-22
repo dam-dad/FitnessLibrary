@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,6 +95,26 @@ public class MenuLeftController implements Initializable {
 		}
 	}
 	
+	public static ArrayList<String> bodyPartCheckBoxesUncheked() {
+		ArrayList<String> stringSelected = new ArrayList<String>();
+		for (CheckBox chk : bodypartCheckBoxes) {
+			if (chk.isSelected()) {
+				stringSelected.add(chk.getText());
+			}
+		}
+		return stringSelected;
+	}
+	
+	public static ArrayList<String> equipmentCheckBoxesUncheked() {
+		ArrayList<String> stringSelected = new ArrayList<String>();
+		for (CheckBox chk : equipmentCheckBoxes) {
+			if (chk.isSelected()) {
+				stringSelected.add(chk.getText());
+			}
+		}
+		return stringSelected;
+	}
+	
 	public static ArrayList<String> targetCheckBoxesUncheked() {
 		ArrayList<String> stringSelected = new ArrayList<String>();
 		for (CheckBox chk : targetCheckBoxes) {
@@ -138,6 +155,8 @@ public class MenuLeftController implements Initializable {
 				case BODYPART:
 					for (String s : listaString) {
 						CheckBox bodypartCHK = new CheckBox(s);
+						bodypartCheckBoxes.add(bodypartCHK);
+						bodypartCHK.selectedProperty().addListener((obv, ov, nv) -> TableViewController.onBodyPartChanged(obv, ov, nv, s));
 						grupoMuscularVBox.getChildren().add(bodypartCHK);
 					}
 					break;
@@ -199,5 +218,4 @@ public class MenuLeftController implements Initializable {
 	public ScrollPane getLeftMenuView() {
 		return LeftMenuView;
 	}
-
 }
