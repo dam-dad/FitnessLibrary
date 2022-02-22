@@ -1,8 +1,17 @@
 package dad.fitnesslibrary.routine;
 
+import java.awt.Desktop;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +23,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class ListRoutinesController implements Initializable {
 
@@ -41,6 +57,10 @@ public class ListRoutinesController implements Initializable {
     private RoutineController routineController;
 	
     private ObjectProperty<Routine> routine;
+    
+	public static final String JRXML_FILE = "/reports/routine.jrxml";
+	public static final String PDF_FILE = "pdf/routine.pdf";
+	public static final String RUTA = "json/routine.json";
     
 	public ListRoutinesController() {
 		try {
@@ -72,8 +92,18 @@ public class ListRoutinesController implements Initializable {
     }
 
     @FXML
-    void onExportRoutineAction(ActionEvent event) {
-    	
+    void onExportRoutineAction(ActionEvent event) throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(routine.asString());
+		
+        File file = new File(RUTA);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter fw = new FileWriter(file);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(json);
+        bw.close();
     }
 
     @FXML
@@ -87,8 +117,12 @@ public class ListRoutinesController implements Initializable {
     }
 
     @FXML
-    void onSaveRoutineAction(ActionEvent event) {
-    	
+    void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
+		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
+        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
+		Desktop.getDesktop().open(new File(PDF_FILE));
     }
     
 	public RoutineController getRoutineController() {

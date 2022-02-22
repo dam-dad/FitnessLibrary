@@ -65,5 +65,11 @@
 			<artifactId>ikonli-unicons-pack</artifactId>
 			<version>12.3.0</version>
 		</dependency>
+		<!-- JasperReport -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.18.1</version>
+		</dependency>
 	</dependencies>
 </project>
