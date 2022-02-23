@@ -4,6 +4,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Routine {
@@ -14,7 +15,7 @@ public class Routine {
 
 	public Routine() {
 		name = new SimpleStringProperty("Untitled");
-		exercisesList = new SimpleListProperty<>();
+		exercisesList = new SimpleListProperty<>(FXCollections.observableArrayList());
 	}
 
 	public final StringProperty nameProperty() {

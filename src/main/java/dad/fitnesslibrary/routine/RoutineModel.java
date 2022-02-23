@@ -1,21 +1,23 @@
 package dad.fitnesslibrary.routine;
 
-import java.util.Objects;
-
 import dad.fitnesslibrary.classes.ExerciseTime;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 public class RoutineModel {
 
 	private ObjectProperty<ExerciseTime> exerciseSelected;
+
+	private ListProperty<ExerciseTime> exercises;
 
 	private ObjectProperty<Image> image;
 
@@ -31,6 +33,7 @@ public class RoutineModel {
 		minutos = new SimpleIntegerProperty(0);
 		segundos = new SimpleIntegerProperty(0);
 		nombre = new SimpleStringProperty();
+		exercises = new SimpleListProperty<>(FXCollections.observableArrayList());
 
 //		exerciseSelected.addListener((obv, ov, nv) -> {
 //			if (ov != nv && Objects.nonNull(nv)) {
@@ -97,5 +100,17 @@ public class RoutineModel {
 
 	public final void setNombre(final String nombre) {
 		this.nombreProperty().set(nombre);
+	}
+
+	public final ListProperty<ExerciseTime> exercisesProperty() {
+		return this.exercises;
+	}
+
+	public final ObservableList<ExerciseTime> getExercises() {
+		return this.exercisesProperty().get();
+	}
+
+	public final void setExercises(final ObservableList<ExerciseTime> exercises) {
+		this.exercisesProperty().set(exercises);
 	}
 }

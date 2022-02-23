@@ -89,10 +89,10 @@ public class RoutineController implements Initializable {
 		
 		model.exerciseSelectedProperty().bind(ejerciciosRoutineListView.getSelectionModel().selectedItemProperty());
 		
-		BooleanBinding disableBefore = Bindings.when(ejerciciosRoutineListView.getSelectionModel().selectedIndexProperty().isEqualTo(0)).then(true).otherwise(false);
+		BooleanBinding disableBefore = Bindings.when(model.exercisesProperty().emptyProperty()).then(true).otherwise(false);
 		beforeExerciseButton.disableProperty().bind(disableBefore);
 		
-		BooleanBinding disableAfter = Bindings.when(ejerciciosRoutineListView.getSelectionModel().selectedIndexProperty().isEqualTo(ejerciciosRoutineListView.getItems().size()-1)).then(true).otherwise(false);
+		BooleanBinding disableAfter = Bindings.when(ejerciciosRoutineListView.getSelectionModel().selectedIndexProperty().isEqualTo(model.exercisesProperty().size()-1)).then(true).otherwise(false);
 		afterExerciseButton.disableProperty().bind(disableAfter);
 		
 		model.exerciseSelectedProperty().addListener((obv, ov, nv) -> {
@@ -110,6 +110,8 @@ public class RoutineController implements Initializable {
 		minutosTextField.textProperty().bindBidirectional(model.minutosProperty(), new NumberStringConverter());
 		segundosTextField.textProperty().bindBidirectional(model.segundosProperty(), new NumberStringConverter());
 		exerciseLabel.textProperty().bindBidirectional(model.nombreProperty());
+		
+		model.exercisesProperty().bindBidirectional(ejerciciosRoutineListView.itemsProperty());
 	}
 	
 	@FXML

@@ -12,11 +12,8 @@ public class ListRoutineModel {
 
 	private ObjectProperty<Routine> routine;
 
-	private ListProperty<ExerciseTime> listaEjercicios;
-
 	public ListRoutineModel() {
 		routine = new SimpleObjectProperty<>(new Routine());
-		listaEjercicios = new SimpleListProperty<>();
 	}
 
 	public final ObjectProperty<Routine> routineProperty() {
@@ -29,17 +26,5 @@ public class ListRoutineModel {
 
 	public final void setRoutine(final Routine routine) {
 		this.routineProperty().set(routine);
-	}
-
-	public final ListProperty<ExerciseTime> listaEjerciciosProperty() {
-		return this.listaEjercicios;
-	}
-
-	public final ObservableList<ExerciseTime> getListaEjercicios() {
-		return this.listaEjerciciosProperty().get();
-	}
-
-	public final void setListaEjercicios(final ObservableList<ExerciseTime> listaEjercicios) {
-		this.listaEjerciciosProperty().set(listaEjercicios);
 	}
 }

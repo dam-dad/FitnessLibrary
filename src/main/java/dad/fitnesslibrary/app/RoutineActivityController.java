@@ -10,7 +10,6 @@ import dad.fitnesslibrary.activity.MenuLeftController;
 import dad.fitnesslibrary.activity.TableViewController;
 import dad.fitnesslibrary.classes.Exercise;
 import dad.fitnesslibrary.classes.ExerciseTime;
-import dad.fitnesslibrary.classes.Routine;
 import dad.fitnesslibrary.mainMenu.MainMenuController;
 import dad.fitnesslibrary.routine.AddExerciseController;
 import dad.fitnesslibrary.routine.ListRoutinesController;
@@ -21,7 +20,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
@@ -124,7 +122,7 @@ public class RoutineActivityController implements Initializable {
 				minutos = Integer.parseInt(addExerciseController.getMinutosTextField().getText());
 				segundos = Integer.parseInt(addExerciseController.getSegundosTextField().getText());
 				ExerciseTime exerciseWithTimer = new ExerciseTime(exerciseSelected, minutos, segundos);
-				listRoutinesController.getRoutineController().getEjerciciosRoutineListView().getItems().add(exerciseWithTimer);
+				listRoutinesController.getRoutineController().getModel().exercisesProperty().add(exerciseWithTimer);
 				addExerciseController.getAddExerciseStage().close();
 			} catch (NumberFormatException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -148,26 +146,7 @@ public class RoutineActivityController implements Initializable {
 
 		// Listeners
 
-		menuLeftController.getBodypartTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv) {
-				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
-				System.out.println(selectedRadioButton.getText());
-			}
-		});
-
-		menuLeftController.getEquipmentTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv) {
-				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
-				System.out.println(selectedRadioButton.getText());
-			}
-		});
-
-		menuLeftController.getTargetTG().selectedToggleProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv) {
-				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
-				System.out.println(selectedRadioButton.getText());
-			}
-		});
+		
 	}
 
 	private void onBuscarButtonAction(ActionEvent e) {

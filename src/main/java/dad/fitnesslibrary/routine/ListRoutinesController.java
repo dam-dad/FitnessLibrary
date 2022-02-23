@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +57,11 @@ public class ListRoutinesController implements Initializable {
         
     private RoutineController routineController;
     
+<<<<<<< Updated upstream
+=======
+    private ListRoutineModel model = new ListRoutineModel();
+    
+>>>>>>> Stashed changes
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
     
 	public ListRoutinesController() {
@@ -72,24 +78,37 @@ public class ListRoutinesController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		routineController = new RoutineController();
 		
-		rutinasListView.getSelectionModel().selectedItemProperty().addListener((obv,ov,nv) -> {
-			if (ov != nv && nv != null) {
-				routineController.getNameRoutineTextField().setText(nv.getName());
-				routineController.getEjerciciosRoutineListView().setItems(nv.getExercisesList());
-			}
-		});
+		model.routineProperty().bind(rutinasListView.getSelectionModel().selectedItemProperty());
+		model.routineProperty().addListener((obv, ov, nv) -> onRoutineSeleccionado(obv,ov,nv));
 		
-		routineController.getNameRoutineTextField().textProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv && nv != null) {
-				rutinasListView.getSelectionModel().getSelectedItem().setName(nv);
-			}
-		});
+//		rutinasListView.getSelectionModel().selectedItemProperty().addListener((obv,ov,nv) -> {
+//			if (ov != null) {
+//				
+//			}
+//			
+//			if (nv != null) {
+//				routineController.getNameRoutineTextField().setText(nv.getName());
+//				routineController.getEjerciciosRoutineListView().setItems(nv.getExercisesList());
+//			}
+//		});
+//		
+//		routineController.getNameRoutineTextField().textProperty().addListener((obv, ov, nv) -> {
+//			if (ov != nv && nv != null) {
+//				rutinasListView.getSelectionModel().getSelectedItem().setName(nv);
+//			}
+//		});
+	}
+	
+	private void onRoutineSeleccionado(ObservableValue<? extends Routine> obv, Routine ov, Routine nv) {
+		if (ov != null) {
+			routineController.getNameRoutineTextField().textProperty().unbindBidirectional(ov.nameProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty().unbindBidirectional(ov.exercisesListProperty());
+		}
 		
-		routineController.getEjerciciosRoutineListView().itemsProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv && nv != null) {
-				rutinasListView.getSelectionModel().getSelectedItem().setExercisesList(nv);
-			}
-		});
+		if (nv != null) {
+			routineController.getNameRoutineTextField().textProperty().bindBidirectional(nv.nameProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty().bindBidirectional(nv.exercisesListProperty());
+		}
 	}
 	
 	@FXML
@@ -140,7 +159,7 @@ public class ListRoutinesController implements Initializable {
 		return routineController;
 	}
 
-	public ListView<?> getRutinasListView() {
+	public ListView<Routine> getRutinasListView() {
 		return rutinasListView;
 	}
 
