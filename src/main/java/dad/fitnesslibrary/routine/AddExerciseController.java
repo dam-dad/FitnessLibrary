@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import dad.fitnesslibrary.classes.Exercise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,6 +56,11 @@ public class AddExerciseController implements Initializable {
 		addExerciseStage.setTitle("Add Exercise");
 		addExerciseStage.setScene(new Scene(root));
 	}
+	
+	@FXML
+    void onCancelButton(ActionEvent event) {
+		addExerciseStage.close();
+    }
 
 	public Button getCancelButton() {
 		return CancelButton;

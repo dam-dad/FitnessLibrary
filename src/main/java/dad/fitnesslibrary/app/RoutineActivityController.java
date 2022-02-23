@@ -120,8 +120,7 @@ public class RoutineActivityController implements Initializable {
 				minutos = Integer.parseInt(addExerciseController.getMinutosTextField().getText());
 				segundos = Integer.parseInt(addExerciseController.getSegundosTextField().getText());
 				ExerciseTime exerciseWithTimer = new ExerciseTime(exerciseSelected, minutos, segundos);
-				listRoutinesController.getRoutineController().getEjerciciosRoutineListView().getItems()
-						.add(exerciseWithTimer);
+				listRoutinesController.getRoutineController().getEjerciciosRoutineListView().getItems().add(exerciseWithTimer);
 			} catch (NumberFormatException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
 				e1.printStackTrace();

@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import dad.fitnesslibrary.classes.Exercise;
 import dad.fitnesslibrary.classes.ExerciseTime;
-import dad.fitnesslibrary.classes.Routine;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,36 +20,36 @@ import javafx.scene.layout.GridPane;
 public class RoutineController implements Initializable {
 
 	@FXML
-    private Button backButton;
-	
+	private Button backButton;
+
 	@FXML
-    private Button beforeExerciseButton;
+	private Button beforeExerciseButton;
 
-    @FXML
-    private ListView<ExerciseTime> ejerciciosRoutineListView;
+	@FXML
+	private ListView<ExerciseTime> ejerciciosRoutineListView;
 
-    @FXML
-    private ImageView exerciseImageView;
+	@FXML
+	private ImageView exerciseImageView;
 
-    @FXML
-    private Button nextExerciseButton;
-    
-    @FXML
-    private TextField nameRoutineTextField;
+	@FXML
+	private Button nextExerciseButton;
 
-    @FXML
-    private Label repsTimerLabel;
+	@FXML
+	private TextField nameRoutineTextField;
 
-    @FXML
-    private GridPane root;
+	@FXML
+	private Label repsTimerLabel;
 
-    @FXML
-    private Button startPauseButton;
-	
+	@FXML
+	private GridPane root;
+
+	@FXML
+	private Button startPauseButton;
+
 	public RoutineController() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RutinaView.fxml"));
+		loader.setController(this);
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RutinaView.fxml"));
-			loader.setController(this);
 			loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,9 +58,9 @@ public class RoutineController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 	}
-	
+
 	public Button getBeforeExerciseButton() {
 		return beforeExerciseButton;
 	}

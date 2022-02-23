@@ -55,8 +55,6 @@ public class ListRoutinesController implements Initializable {
     private GridPane root;
     
     private RoutineController routineController;
-	
-    private ObjectProperty<Routine> routine;
     
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
 	public static final String PDF_FILE = "pdf/routine.pdf";
@@ -76,13 +74,24 @@ public class ListRoutinesController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		routineController = new RoutineController();
 		
-		routine = new SimpleObjectProperty<>(new Routine());
+		rutinasListView.getSelectionModel().selectedItemProperty().addListener((obv,ov,nv) -> {
+			if (ov != nv && nv != null) {
+				routineController.getNameRoutineTextField().setText(nv.getName());
+				routineController.getEjerciciosRoutineListView().setItems(nv.getExercisesList());
+			}
+		});
 		
-		routineController.getNameRoutineTextField().textProperty().bindBidirectional(routine.get().nameProperty());
+		routineController.getNameRoutineTextField().textProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv && nv != null) {
+				rutinasListView.getSelectionModel().getSelectedItem().setName(nv);
+			}
+		});
 		
-		routineController.getEjerciciosRoutineListView().itemsProperty().bindBidirectional(routine.get().exercisesListProperty());
-		
-		routine.bind(rutinasListView.getSelectionModel().selectedItemProperty());
+		routineController.getEjerciciosRoutineListView().itemsProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv && nv != null) {
+				rutinasListView.getSelectionModel().getSelectedItem().setExercisesList(nv);
+			}
+		});
 	}
 	
 	@FXML
