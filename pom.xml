@@ -72,4 +72,38 @@
 			<version>6.18.1</version>
 		</dependency>
 	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>io.github.fvarrui</groupId>
+				<artifactId>javapackager</artifactId>
+				<version>1.6.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>package</goal>
+						</goals>
+						<configuration>
+							<mainClass>dad.fitnesslibrary.app.Main</mainClass>
+							<bundleJre>true</bundleJre>
+							<name>Fitness Library</name>
+							<customizedJre>false</customizedJre>
+							<generateInstaller>true</generateInstaller>
+							<administratorRequired>false</administratorRequired>
+							<platform>auto</platform>
+							<winConfig>
+								<generateMsi>false</generateMsi>
+								<createDesktopIconTask>false</createDesktopIconTask>
+								<disableDirPage>false</disableDirPage>
+								<disableFinishedPage>false</disableFinishedPage>
+							</winConfig>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
