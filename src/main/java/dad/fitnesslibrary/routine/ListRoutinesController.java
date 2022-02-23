@@ -8,9 +8,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,10 +27,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import dad.fitnesslibrary.app.App;
+import dad.fitnesslibrary.classes.Exercise;
+import dad.fitnesslibrary.classes.ExerciseTime;
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,32 +54,32 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class ListRoutinesController implements Initializable {
 
 	@FXML
-    private Button ExportRoutineButton;
+	private Button ExportRoutineButton;
 
-    @FXML
-    private Button SaveRoutineButton;
+	@FXML
+	private Button SaveRoutineButton;
 
-    @FXML
-    private Button deleteRoutineButton;
+	@FXML
+	private Button deleteRoutineButton;
 
-    @FXML
-    private Button importRoutineButton;
+	@FXML
+	private Button importRoutineButton;
 
-    @FXML
-    private Button newRoutineButton;
+	@FXML
+	private Button newRoutineButton;
 
-    @FXML
-    private ListView<Routine> rutinasListView;
-    
-    @FXML
-    private GridPane root;
-        
-    private RoutineController routineController;
-    
-    private ListRoutineModel model = new ListRoutineModel();
-    
+	@FXML
+	private ListView<Routine> rutinasListView;
+
+	@FXML
+	private GridPane root;
+
+	private RoutineController routineController;
+
+	private ListRoutineModel model = new ListRoutineModel();
+
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
-    
+
 	public ListRoutinesController() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListaRutinaView.fxml"));
@@ -83,10 +93,10 @@ public class ListRoutinesController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		routineController = new RoutineController();
-		
+
 		model.routineProperty().bind(rutinasListView.getSelectionModel().selectedItemProperty());
-		model.routineProperty().addListener((obv, ov, nv) -> onRoutineSeleccionado(obv,ov,nv));
-		
+		model.routineProperty().addListener((obv, ov, nv) -> onRoutineSeleccionado(obv, ov, nv));
+
 //		rutinasListView.getSelectionModel().selectedItemProperty().addListener((obv,ov,nv) -> {
 //			if (ov != null) {
 //				
@@ -104,62 +114,103 @@ public class ListRoutinesController implements Initializable {
 //			}
 //		});
 	}
-	
+
 	private void onRoutineSeleccionado(ObservableValue<? extends Routine> obv, Routine ov, Routine nv) {
 		if (ov != null) {
 			routineController.getNameRoutineTextField().textProperty().unbindBidirectional(ov.nameProperty());
-			routineController.getEjerciciosRoutineListView().itemsProperty().unbindBidirectional(ov.exercisesListProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty()
+					.unbindBidirectional(ov.exercisesListProperty());
 		}
-		
+
 		if (nv != null) {
 			routineController.getNameRoutineTextField().textProperty().bindBidirectional(nv.nameProperty());
-			routineController.getEjerciciosRoutineListView().itemsProperty().bindBidirectional(nv.exercisesListProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty()
+					.bindBidirectional(nv.exercisesListProperty());
 		}
 	}
-	
+
 	@FXML
-    void onDeleteRoutineAction(ActionEvent event) {
+	void onDeleteRoutineAction(ActionEvent event) {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		rutinasListView.getItems().remove(selectedRoutine);
-    }
+	}
 
-    @FXML
-    void onExportRoutineAction(ActionEvent event) throws IOException {
-    	Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
+	@FXML
+	void onExportRoutineAction(ActionEvent event) throws IOException {
+		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(selectedRoutine);
 
-        File file = new File("json/" + selectedRoutine.getName() + ".json");
+		File file = new File("json/" + selectedRoutine.getName() + ".json");
 
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fw = new FileWriter(file);
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(json);
-        bw.close();
-    }
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		FileWriter fw = new FileWriter(file);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(json);
+		bw.close();
+	}
 
-    @FXML
-    void onImportRoutineAction(ActionEvent event) {
-    	
-    }
+	@FXML
+	void onImportRoutineAction(ActionEvent event) {
+		String jsonData = null;
 
-    @FXML
-    void onNewRoutineAction(ActionEvent event) {
-    	rutinasListView.getItems().add(new Routine());
-    }
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Importar Rutina");
 
-    @FXML
-    void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
-    	Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
-		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
+		fileChooser.setInitialDirectory(new File("C:\\Users\\gardo\\eclipse-workspace\\DAD\\FitnessLibrary\\json"));
+		File json = fileChooser.showOpenDialog(null);
+		
+		Routine importRoutine = new Routine();
+		ExerciseTime importExercise = new ExerciseTime();
+		ObservableList<ExerciseTime> exercises = null;
+		
+		JSONObject ob = new JSONObject(json);
+		String value = ob.getJSONObject("name").getString("value");
+		importRoutine.setName(value);
+		JSONArray arr = ob.getJSONArray("exercisesList");
+		for (int i = 0; i < arr.length(); i++) {
+			int min = arr.getJSONObject(i).getInt("minutos");
+			importExercise.setMinutos(min);
+			int seg = arr.getJSONObject(i).getInt("segundos");
+			importExercise.setSegundos(seg);
+			String id = arr.getJSONObject(i).getString("id");
+			importExercise.setId(id);
+			String gifUrl = arr.getJSONObject(i).getString("gifUrl");
+			importExercise.setGifUrl(gifUrl);
+			String name = arr.getJSONObject(i).getString("name");
+			importExercise.setName(name);
+			String equipment = arr.getJSONObject(i).getString("equipment");
+			importExercise.setEquipment(equipment);
+			String bodyPart = arr.getJSONObject(i).getString("bodyPart");
+			importExercise.setBodyPart(bodyPart);
+			String target = arr.getJSONObject(i).getString("target");
+			importExercise.setTarget(target);
+			exercises.add(importExercise);
+		}
+		importRoutine.setExercisesList(exercises);
+		rutinasListView.getItems().add(importRoutine);
+		
+	}
+
+	@FXML
+	void onNewRoutineAction(ActionEvent event) {
+		rutinasListView.getItems().add(new Routine());
+	}
+
+	@FXML
+	void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
+		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
+		JasperReport report = JasperCompileManager
+				.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
 		Map<String, Object> parameters = new HashMap<String, Object>();
-        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines(selectedRoutine)));
-        JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
+		JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
+		JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
 		Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
-    }
-    
+	}
+
 	public RoutineController getRoutineController() {
 		return routineController;
 	}
