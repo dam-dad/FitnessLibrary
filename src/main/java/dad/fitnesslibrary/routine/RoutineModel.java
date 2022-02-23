@@ -15,7 +15,10 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-
+/**
+ * Clase de la rutina para mostrar los objetos 
+ *
+ */
 public class RoutineModel {
 
 	private ObjectProperty<ExerciseTime> exerciseSelected;
@@ -46,7 +49,9 @@ public class RoutineModel {
 //			}
 //		});
 	}
-	
+	/**
+	 * Cambia los segundos sobrantes a minutos
+	 */
 	private void secondsToMinutes() {
 		int minutosAdd = (int) segundos.intValue() / 60;
 		minutos.add(minutosAdd);
