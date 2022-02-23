@@ -41,10 +41,9 @@ public class Routine {
 	public final void setExercisesList(final ObservableList<ExerciseTime> exercisesList) {
 		this.exercisesListProperty().set(exercisesList);
 	}
-	
+
 	@Override
 	public String toString() {
 		return name.get();
 	}
-
 }

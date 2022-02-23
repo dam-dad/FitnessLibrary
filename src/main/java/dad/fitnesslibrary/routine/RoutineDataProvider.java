@@ -12,7 +12,6 @@ public class RoutineDataProvider {
 	public static List<Routine> getRoutines(Routine routine) {
 		List<Routine> exercises = new ArrayList<>();
 		for (int i = 1; i <= exercises.size(); i++) {
-//			routine = new Routine();
 			routine.getExercisesList();
 			exercises.add(routine);
 		}

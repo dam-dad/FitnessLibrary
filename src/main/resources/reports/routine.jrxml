@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="routine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1fb09e57-bbf4-42dd-b644-3a0c59be361d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="routine" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1fb09e57-bbf4-42dd-b644-3a0c59be361d">
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -31,10 +31,6 @@
 				</textElement>
 				<text><![CDATA[Mi rutina]]></text>
 			</staticText>
-			<image>
-				<reportElement x="10" y="16" width="60" height="58" uuid="b805e3cb-a528-4d8e-8c60-dc292ec0214a"/>
-				<imageExpression><![CDATA["/src/main/resources/img/Logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
