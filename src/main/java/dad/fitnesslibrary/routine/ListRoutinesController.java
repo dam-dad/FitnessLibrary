@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +57,8 @@ public class ListRoutinesController implements Initializable {
     
     private RoutineController routineController;
     
+    private ListRoutineModel model = new ListRoutineModel();
+    
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
 	public static final String PDF_FILE = "pdf/routine.pdf";
 	public static final String RUTA = "json/routine.json";
@@ -74,26 +77,26 @@ public class ListRoutinesController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		routineController = new RoutineController();
 		
-		rutinasListView.getSelectionModel().selectedItemProperty().addListener((obv,ov,nv) -> {
-			if (ov != nv && nv != null) {
-				routineController.getNameRoutineTextField().setText(nv.getName());
-				routineController.getEjerciciosRoutineListView().setItems(nv.getExercisesList());
-			}
-		});
+		model.getRoutine().exercisesListProperty().bindBidirectional(model.listaEjerciciosProperty());
+		model.listaEjerciciosProperty().bindBidirectional(routineController.getEjerciciosRoutineListView().itemsProperty());
 		
-		routineController.getNameRoutineTextField().textProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv && nv != null) {
-				rutinasListView.getSelectionModel().getSelectedItem().setName(nv);
-			}
-		});
+		model.routineProperty().bind(rutinasListView.getSelectionModel().selectedItemProperty());
 		
-		routineController.getEjerciciosRoutineListView().itemsProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv && nv != null) {
-				rutinasListView.getSelectionModel().getSelectedItem().setExercisesList(nv);
-			}
-		});
+		model.routineProperty().addListener((obv, ov, nv) -> onRoutineSeleccionado(obv,ov,nv));
 	}
 	
+	private void onRoutineSeleccionado(ObservableValue<? extends Routine> obv, Routine ov, Routine nv) {
+		if (ov != null) {
+			routineController.getNameRoutineTextField().textProperty().unbindBidirectional(ov.nameProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty().unbindBidirectional(ov.exercisesListProperty());
+		}
+		
+		if (nv != null) {
+			routineController.getNameRoutineTextField().textProperty().bindBidirectional(nv.nameProperty());
+			routineController.getEjerciciosRoutineListView().itemsProperty().bindBidirectional(nv.exercisesListProperty());
+		}
+	}
+
 	@FXML
     void onDeleteRoutineAction(ActionEvent event) {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
@@ -103,7 +106,7 @@ public class ListRoutinesController implements Initializable {
     @FXML
     void onExportRoutineAction(ActionEvent event) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(routine.asString());
+		String json = gson.toJson(model.routineProperty().asString());
 		
         File file = new File(RUTA);
         if (!file.exists()) {
@@ -127,21 +130,25 @@ public class ListRoutinesController implements Initializable {
 
     @FXML
     void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
-		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
-		Map<String, Object> parameters = new HashMap<String, Object>();
-        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
-        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
-		Desktop.getDesktop().open(new File(PDF_FILE));
+//		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
+//		Map<String, Object> parameters = new HashMap<String, Object>();
+//        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
+//        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
+//		Desktop.getDesktop().open(new File(PDF_FILE));
     }
     
 	public RoutineController getRoutineController() {
 		return routineController;
 	}
 
-	public ListView<?> getRutinasListView() {
+	public ListView<Routine> getRutinasListView() {
 		return rutinasListView;
 	}
 
+	public ListRoutineModel getModel() {
+		return model;
+	}
+	
 	public GridPane getRoot() {
 		return root;
 	}

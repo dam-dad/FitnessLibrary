@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <GridPane fx:id="root" hgap="10.0" prefHeight="627.0" prefWidth="686.0" vgap="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
@@ -28,27 +29,42 @@
    <children>
       <ImageView fx:id="exerciseImageView" fitHeight="172.0" fitWidth="167.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <image>
-            <Image url="http://d205bpvrqc9yn1.cloudfront.net/0001.gif" />
+            <Image url="@../img/Logo.png" />
          </image></ImageView>
       <Button id="StartButton" fx:id="startPauseButton" defaultButton="true" maxHeight="48.0" mnemonicParsing="false" prefWidth="43.0" stylesheets="@../css/Routine.css" text="Start" GridPane.rowIndex="3" GridPane.valignment="TOP">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <HBox alignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <VBox alignment="CENTER" GridPane.rowIndex="2">
          <children>
-            <Label fx:id="repsTimerLabel" text="Amount of Reps or Time remaining">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="7.0">
+               <children>
+                  <TextField fx:id="minutosTextField" prefColumnCount="2" prefHeight="44.0" prefWidth="55.0" />
+                  <Label text=":">
+                     <font>
+                        <Font size="52.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="segundosTextField" prefColumnCount="2" prefHeight="43.0" prefWidth="54.0">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <Label fx:id="exerciseLabel" text="EXercise">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
          </children>
-      </HBox>
+      </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="4">
          <children>
             <Button fx:id="beforeExerciseButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="&lt;" />
             <ListView fx:id="ejerciciosRoutineListView" maxWidth="1.7976931348623157E308" orientation="HORIZONTAL" HBox.hgrow="ALWAYS" />
-            <Button fx:id="nextExerciseButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="&gt;" />
+            <Button fx:id="afterExerciseButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="&gt;" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
@@ -67,7 +83,7 @@
             <Insets bottom="30.0" right="30.0" top="30.0" />
          </GridPane.margin>
       </HBox>
-      <Button mnemonicParsing="false" text="Delete Exercise" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+      <Button fx:id="deleteExerciseButton" mnemonicParsing="false" onAction="#onDeleteExerciseAction" text="Delete Exercise" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

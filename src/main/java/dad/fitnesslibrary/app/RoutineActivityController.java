@@ -10,6 +10,7 @@ import dad.fitnesslibrary.activity.MenuLeftController;
 import dad.fitnesslibrary.activity.TableViewController;
 import dad.fitnesslibrary.classes.Exercise;
 import dad.fitnesslibrary.classes.ExerciseTime;
+import dad.fitnesslibrary.classes.Routine;
 import dad.fitnesslibrary.mainMenu.MainMenuController;
 import dad.fitnesslibrary.routine.AddExerciseController;
 import dad.fitnesslibrary.routine.ListRoutinesController;
@@ -98,7 +99,10 @@ public class RoutineActivityController implements Initializable {
 		listRoutinesController.getRutinasListView().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
+//					if (listRoutinesController.getModel().getRoutine().equals(null)) {	
 					routineTab.setContent(listRoutinesController.getRoutineController().getRoot());
+						
+//					}
 				}
 			}
 		});
@@ -108,7 +112,7 @@ public class RoutineActivityController implements Initializable {
 		}));
 
 		ejercicioController.getAddToRoutineButton().setOnAction(e -> {
-			addExerciseController.getExerciseLabel().setText(TableViewController.getSelectedExercise().toString());
+			addExerciseController.getExerciseLabel().setText(TableViewController.getSelectedExercise().getName());
 			addExerciseController.getAddExerciseStage().showAndWait();
 		});
 
@@ -121,6 +125,7 @@ public class RoutineActivityController implements Initializable {
 				segundos = Integer.parseInt(addExerciseController.getSegundosTextField().getText());
 				ExerciseTime exerciseWithTimer = new ExerciseTime(exerciseSelected, minutos, segundos);
 				listRoutinesController.getRoutineController().getEjerciciosRoutineListView().getItems().add(exerciseWithTimer);
+				addExerciseController.getAddExerciseStage().close();
 			} catch (NumberFormatException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
 				e1.printStackTrace();
