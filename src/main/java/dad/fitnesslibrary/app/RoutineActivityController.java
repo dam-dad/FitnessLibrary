@@ -124,6 +124,10 @@ public class RoutineActivityController implements Initializable {
 			try {
 				minutos = Integer.parseInt(addExerciseController.getMinutosTextField().getText());
 				segundos = Integer.parseInt(addExerciseController.getSegundosTextField().getText());
+				if (segundos >= 60) {
+					minutos += (int) segundos / 60;
+					segundos = (int) (segundos % 60)*60;
+				}
 				ExerciseTime exerciseWithTimer = new ExerciseTime(exerciseSelected, minutos, segundos);
 				listRoutinesController.getRoutineController().getModel().exercisesProperty().add(exerciseWithTimer);
 				addExerciseController.getAddExerciseStage().close();
@@ -148,8 +152,6 @@ public class RoutineActivityController implements Initializable {
 		menuBarController.getBuscarButton().setOnAction(e -> onBuscarButtonAction(e));
 
 		// Listeners
-
-		
 	}
 
 	private void onBuscarButtonAction(ActionEvent e) {

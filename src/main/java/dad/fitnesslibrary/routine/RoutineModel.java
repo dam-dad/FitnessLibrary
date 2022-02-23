@@ -1,6 +1,9 @@
 package dad.fitnesslibrary.routine;
 
 import dad.fitnesslibrary.classes.ExerciseTime;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -26,6 +29,8 @@ public class RoutineModel {
 	private IntegerProperty segundos;
 
 	private StringProperty nombre;
+	
+	private final int divisorTiempo = 60;
 
 	public RoutineModel() {
 		exerciseSelected = new SimpleObjectProperty<>();
@@ -34,12 +39,19 @@ public class RoutineModel {
 		segundos = new SimpleIntegerProperty(0);
 		nombre = new SimpleStringProperty();
 		exercises = new SimpleListProperty<>(FXCollections.observableArrayList());
-
+		
 //		exerciseSelected.addListener((obv, ov, nv) -> {
 //			if (ov != nv && Objects.nonNull(nv)) {
 //				
 //			}
 //		});
+	}
+	
+	private void secondsToMinutes() {
+		int minutosAdd = (int) segundos.intValue() / 60;
+		minutos.add(minutosAdd);
+		int resto = (segundos.get() % 60)*60;
+		segundos.add(resto);
 	}
 
 	public final ObjectProperty<ExerciseTime> exerciseSelectedProperty() {
