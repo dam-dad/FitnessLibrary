@@ -6,11 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -20,12 +16,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-<<<<<<< Updated upstream
-import dad.fitnesslibrary.app.App;
-import dad.fitnesslibrary.classes.Exercise;
 import dad.fitnesslibrary.classes.ExerciseTime;
-=======
->>>>>>> Stashed changes
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -36,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -155,11 +147,11 @@ public class ListRoutinesController implements Initializable {
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
 		fileChooser.setInitialDirectory(new File("C:\\Users\\gardo\\eclipse-workspace\\DAD\\FitnessLibrary\\json"));
 		File json = fileChooser.showOpenDialog(null);
-		
+
 		Routine importRoutine = new Routine();
 		ExerciseTime importExercise = new ExerciseTime();
 		ObservableList<ExerciseTime> exercises = null;
-		
+
 		JSONObject ob = new JSONObject(json);
 		String value = ob.getJSONObject("name").getString("value");
 		importRoutine.setName(value);
@@ -185,7 +177,7 @@ public class ListRoutinesController implements Initializable {
 		}
 		importRoutine.setExercisesList(exercises);
 		rutinasListView.getItems().add(importRoutine);
-		
+
 	}
 
 	@FXML
@@ -199,7 +191,8 @@ public class ListRoutinesController implements Initializable {
 		JasperReport report = JasperCompileManager
 				.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
+		JasperPrint print = JasperFillManager.fillReport(report, parameters,
+				new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
 		JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
 		Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
 	}
