@@ -25,7 +25,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-
+/**
+ * Controlador del menú de la izquierda
+ *
+ */
 public class MenuLeftController implements Initializable {
 
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();

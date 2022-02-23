@@ -20,7 +20,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
+/**	
+ * Clase usada como controlador de EjercicioView
+ *
+ */
 public class EjercicioController implements Initializable {
 
 	//Model
@@ -61,6 +64,9 @@ public class EjercicioController implements Initializable {
 		Ejercicio.addListener((o, ov, nv) -> onEjercicioChanged(o, ov, nv));
 
 	}
+	/**
+	 * Cambia y muestra los valores del ejercicio mostrado en la tabla 
+	 */
 	private void onEjercicioChanged(ObservableValue<? extends Exercise> o, Exercise ov, Exercise nv) {
 		
 		if(nv != ov && Objects.nonNull(nv))

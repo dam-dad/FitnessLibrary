@@ -10,7 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
-
+/**
+ * Controlador de la barra de menú 
+ *
+ */
 public class MenuBarController implements Initializable {
 
 	@FXML

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,38 +30,41 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-
+/**
+ * Controlador de la tabla de ejercicios 
+ *
+ */
 public class TableViewController implements Initializable {
 
 	private ObjectProperty<Exercise> selectedExercise = new SimpleObjectProperty<>();
-	
-	@FXML
-    private TableColumn<Exercise, String> idColumn;
-	
-	@FXML
-    private TableColumn<Exercise, String> nameColumn;
-	
-	@FXML
-    private TableColumn<Exercise, String> equipmentColumn;
-	
-	@FXML
-    private TableColumn<Exercise, String> bodypartColumn;
 
-    @FXML
-    private TableColumn<Exercise, String> targetColumn;
-    
-    @FXML
-    private TableView<Exercise> root;
-    
-    private static ListProperty<Exercise> exerciseList;
-    
-    private static ListProperty<Exercise> exerciseListAux;
+	@FXML
+	private TableColumn<Exercise, String> idColumn;
+
+	@FXML
+	private TableColumn<Exercise, String> nameColumn;
+
+	@FXML
+	private TableColumn<Exercise, String> equipmentColumn;
+
+	@FXML
+	private TableColumn<Exercise, String> bodypartColumn;
+
+	@FXML
+	private TableColumn<Exercise, String> targetColumn;
+
+	@FXML
+	private TableView<Exercise> root;
+
+	private static ListProperty<Exercise> exerciseList;
+
+	private static ListProperty<Exercise> exerciseListAux;
 
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private final static Type exerciseListType = new TypeToken<List<Exercise>>() {
 	}.getType();
-	
+
 	public TableViewController() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableViewExercises.fxml"));
@@ -75,22 +79,22 @@ public class TableViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		exerciseList = new SimpleListProperty<>();
 		exerciseListAux = new SimpleListProperty<>();
-		
+
 		idColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getId()));
 		nameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getName()));
 		equipmentColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipment()));
 		bodypartColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBodyPart()));
 		targetColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTarget()));
 		getAllExercises();
-		
+
 		selectedExercise.bind(root.getSelectionModel().selectedItemProperty());
-		
+
 //		ejercicioController.EjercicioProperty().bind(selectedExercise);
 	}
 
 	@FXML
 	void onRootDoubleClicked(MouseEvent event) {
-		
+
 	}
 
 	// Get All Exercises
@@ -101,21 +105,36 @@ public class TableViewController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+/**
+ * Cambia los valores mostrados en la tabla
+ */
 	public static void onBodyPartChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
-		if (nv) {
-			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
-			ArrayList<String> checboxesSeleccionados = MenuLeftController.bodyPartCheckBoxesUncheked();
-			for (Exercise e : exerciseListAux) {
-				if (checboxesSeleccionados.contains(e.getTarget())) {
-					ejerciciosSeleccionados.add(e);
-				}
-			}
-			exerciseList.clear();
-			exerciseList.addAll(ejerciciosSeleccionados);
-		}
+//		if(nv == true)
+//			exerciseList.stream().filter(exercise -> exercise.getBodyPart().equals(s)).collect(Collectors.toList());
+//		else {
+//			getAllExercises();
+//		}
+//			
+//		exerciseListAux.stream().filter(exercise -> exercise.getBodyPart().equals(s)).collect(Collectors.toList());
+//		if (nv) {
+//			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
+//			ArrayList<String> checboxesSeleccionados = MenuLeftController.bodyPartCheckBoxesUncheked();
+//			if (checboxesSeleccionados.isEmpty())
+//				exerciseList.addAll(exerciseListAux);
+//			else {	
+//			}
+
+//			if (checboxesSeleccionados.isEmpty()) {
+//				exerciseList.clear();
+//				exerciseList.addAll(exerciseListAux);
+//			} else {
+//				
+////				exerciseList.clear();
+////				exerciseList.addAll(ejerciciosSeleccionados);
 	}
-	
+	/**
+	 * Cambia los valores mostrados en la tabla
+	 */
 	public static void onEquipmentChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String s) {
 		if (nv) {
 			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
@@ -129,8 +148,11 @@ public class TableViewController implements Initializable {
 			exerciseList.addAll(ejerciciosSeleccionados);
 		}
 	}
-	
-	public static void onTargetCHKChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv, String targetString) {
+	/**
+	 * Cambia los valores mostrados en la tabla
+	 */
+	public static void onTargetCHKChanged(ObservableValue<? extends Boolean> obv, Boolean ov, Boolean nv,
+			String targetString) {
 		if (nv) {
 			ArrayList<Exercise> ejerciciosSeleccionados = new ArrayList<Exercise>();
 			ArrayList<String> checboxesSeleccionados = MenuLeftController.targetCheckBoxesUncheked();
@@ -172,8 +194,8 @@ public class TableViewController implements Initializable {
 //
 //		getResponseBodyExercise("/equipment/" + equipment);
 //	}
-	
-	private void getResponseBodyExercise(String parameter) throws IOException {		
+
+	private void getResponseBodyExercise(String parameter) throws IOException {
 		Task<List<Exercise>> rbTask = new Task<List<Exercise>>() {
 			@Override
 			protected List<Exercise> call() throws Exception {
@@ -191,15 +213,15 @@ public class TableViewController implements Initializable {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		rbTask.setOnFailed(e -> {
 			System.err.println(rbTask.getException());
 		});
-		
+
 		Thread thread = new Thread(rbTask);
 		thread.start();
 	}
-	
+
 	private static String backgroundCall(String parameter) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 
@@ -208,7 +230,7 @@ public class TableViewController implements Initializable {
 				.addHeader("x-rapidapi-key", "582862b3a3mshb1f23c0f20232c2p175ea4jsn3aa2ad592392").build();
 
 		Response response = client.newCall(request).execute();
-		
+
 		return response.body().string();
 	}
 
@@ -219,12 +241,10 @@ public class TableViewController implements Initializable {
 	public final ObjectProperty<Exercise> selectedExerciseProperty() {
 		return this.selectedExercise;
 	}
-	
 
 	public final Exercise getSelectedExercise() {
 		return this.selectedExerciseProperty().get();
 	}
-	
 
 	public final void setSelectedExercise(final Exercise selectedExercise) {
 		this.selectedExerciseProperty().set(selectedExercise);

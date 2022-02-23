@@ -24,7 +24,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * Controlador de la rutina 
+ *
+ */
 public class RoutineActivityController implements Initializable {
 
 	@FXML
