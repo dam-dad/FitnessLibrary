@@ -73,7 +73,7 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "name= "+name+",\nbodyPart= " + bodyPart + ",\nequipment=" + equipment + ",\nid=" + id
-				+ ",\ntarget=" + target;
+		return "name= "+name+",\n bodyPart= " + bodyPart + ",\n equipment=" + equipment + ",\n id=" + id
+				+ ",\n target=" + target;
 	}
 }
