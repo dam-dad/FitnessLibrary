@@ -53,8 +53,9 @@ public class ListRoutinesController implements Initializable {
     
     @FXML
     private GridPane root;
-    
+        
     private RoutineController routineController;
+    
     
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
 	public static final String PDF_FILE = "pdf/routine.pdf";
@@ -102,10 +103,12 @@ public class ListRoutinesController implements Initializable {
 
     @FXML
     void onExportRoutineAction(ActionEvent event) throws IOException {
+    	Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(routine.asString());
-		
-        File file = new File(RUTA);
+		String json = gson.toJson(selectedRoutine);
+
+        File file = new File("json/" + selectedRoutine.getName() + ".json");
+
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -127,9 +130,10 @@ public class ListRoutinesController implements Initializable {
 
     @FXML
     void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
+    	Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
 		Map<String, Object> parameters = new HashMap<String, Object>();
-        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
+        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines(selectedRoutine)));
         JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
 		Desktop.getDesktop().open(new File(PDF_FILE));
     }

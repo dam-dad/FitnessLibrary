@@ -9,16 +9,12 @@ import dad.fitnesslibrary.classes.Routine;
 
 public class RoutineDataProvider {
 
-	public static List<Exercise> getRoutines() {
-		List<Exercise> exercises = new ArrayList<>();
-		for (int i = 1; i <= 10; i++) {
-			Exercise exercise = new Exercise();
-			exercise.setId("Id-" + i);
-			exercise.setName("Name-" + i);
-			exercise.setEquipment("Equipment-" + i);
-			exercise.setBodyPart("BodyPart-" + i);
-			exercise.setTarget("Target-" + i);
-			exercises.add(exercise);
+	public static List<Routine> getRoutines(Routine routine) {
+		List<Routine> exercises = new ArrayList<>();
+		for (int i = 1; i <= exercises.size(); i++) {
+			routine = new Routine();
+			routine.getExercisesList();
+			exercises.add(routine);
 		}
 		return exercises;
 	}
