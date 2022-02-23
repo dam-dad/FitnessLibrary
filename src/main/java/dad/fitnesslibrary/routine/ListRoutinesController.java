@@ -56,10 +56,7 @@ public class ListRoutinesController implements Initializable {
         
     private RoutineController routineController;
     
-    
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
-	public static final String PDF_FILE = "pdf/routine.pdf";
-	public static final String RUTA = "json/routine.json";
     
 	public ListRoutinesController() {
 		try {
@@ -133,9 +130,10 @@ public class ListRoutinesController implements Initializable {
     	Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
 		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("autor", "FitnessLibrary"); // no lo uso, pero se lo paso
         JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines(selectedRoutine)));
-        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
-		Desktop.getDesktop().open(new File(PDF_FILE));
+        JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
+		Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
     }
     
 	public RoutineController getRoutineController() {

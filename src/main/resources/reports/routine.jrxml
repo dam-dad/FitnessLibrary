@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="routine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1fb09e57-bbf4-42dd-b644-3a0c59be361d">
+	<parameter name="autor" class="java.lang.String">
+		<parameterDescription><![CDATA[autor]]></parameterDescription>
+		<defaultValueExpression><![CDATA["FitnessLibrary"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="id" class="java.lang.String">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="equipment" class="java.lang.String">
+		<fieldDescription><![CDATA[equipment]]></fieldDescription>
+	</field>
+	<field name="bodyPart" class="java.lang.String">
+		<fieldDescription><![CDATA[bodyPart]]></fieldDescription>
+	</field>
+	<field name="target" class="java.lang.String">
+		<fieldDescription><![CDATA[target]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
+		<band height="99" splitType="Stretch">
 			<staticText>
 				<reportElement x="147" y="18" width="261" height="54" uuid="9595d9a1-0bae-41a9-9eaa-6311cf7461cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="26"/>
 				</textElement>
 				<text><![CDATA[Mi rutina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="72" width="87" height="21" uuid="c9783488-cb2d-4558-b0e7-50ccc4a31fe7"/>
+				<text><![CDATA[$P{autor}]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -37,11 +60,11 @@
 				<text><![CDATA[Equipment]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="360" y="10" width="100" height="30" uuid="17ce61cf-d348-4eca-81c6-d84a53ea5370"/>
+				<reportElement x="370" y="10" width="90" height="30" uuid="17ce61cf-d348-4eca-81c6-d84a53ea5370"/>
 				<text><![CDATA[BodyPart]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="460" y="10" width="100" height="30" uuid="15eded66-9afb-409d-93fa-8b28cd80bb21"/>
+				<reportElement x="470" y="10" width="90" height="30" uuid="15eded66-9afb-409d-93fa-8b28cd80bb21"/>
 				<text><![CDATA[Target]]></text>
 			</staticText>
 		</band>
@@ -52,27 +75,27 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="70" height="20" uuid="00d29e84-b7fe-4cb0-b16f-fd9a885db0a2"/>
-				<text><![CDATA[$F{id}]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="70" y="0" width="70" height="20" uuid="62041919-f1e9-43ff-b139-92fdb76f9732"/>
-				<text><![CDATA[$F{name}]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="260" y="0" width="70" height="20" uuid="60cb3c45-0fe9-4e77-a4a7-dbee82e41904"/>
-				<text><![CDATA[$F{equipment}]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="360" y="0" width="70" height="20" uuid="44aa0e60-32dc-42cb-a91c-5cd7ca4d881a"/>
-				<text><![CDATA[$F{bodypart}]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="460" y="0" width="70" height="20" uuid="30fcb6d9-30d6-4ad1-ad38-1d4bd787a363"/>
-				<text><![CDATA[$F{target}]]></text>
-			</staticText>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="0" width="68" height="30" uuid="ea7f4812-f3d1-4fb1-be63-a9cde10c46e3"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="180" height="30" uuid="7a8be04f-bdea-4bda-b358-348c7eb958d8"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="100" height="30" uuid="82457fff-dcc1-4d55-8e9f-20abfd5e383e"/>
+				<textFieldExpression><![CDATA[$F{equipment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="90" height="30" uuid="e3f1d88f-711f-4fa3-92fb-079bf67478ae"/>
+				<textFieldExpression><![CDATA[$F{bodyPart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="0" width="90" height="30" uuid="fc4afe72-df2d-4024-b00d-b170ab657e60"/>
+				<textFieldExpression><![CDATA[$F{target}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

@@ -2,6 +2,7 @@ package dad.fitnesslibrary.app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -14,6 +15,7 @@ public class App extends Application {
 		raC = new RoutineActivityController();
 		
 		primaryStage.setTitle("Fitness Library");
+		primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("/img/Logo.png")));
 		primaryStage.setScene(new Scene(raC.getView(), 800, 600));
 		primaryStage.show();
 		
