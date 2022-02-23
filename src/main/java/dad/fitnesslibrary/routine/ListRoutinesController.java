@@ -57,11 +57,8 @@ public class ListRoutinesController implements Initializable {
         
     private RoutineController routineController;
     
-<<<<<<< Updated upstream
-=======
     private ListRoutineModel model = new ListRoutineModel();
     
->>>>>>> Stashed changes
 	public static final String JRXML_FILE = "/reports/routine.jrxml";
     
 	public ListRoutinesController() {
