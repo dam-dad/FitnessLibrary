@@ -130,11 +130,11 @@ public class ListRoutinesController implements Initializable {
 
     @FXML
     void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
-//		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
-//		Map<String, Object> parameters = new HashMap<String, Object>();
-//        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
-//        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
-//		Desktop.getDesktop().open(new File(PDF_FILE));
+		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+        JasperPrint print  = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(RoutineDataProvider.getRoutines()));
+        JasperExportManager.exportReportToPdfFile(print, PDF_FILE);
+		Desktop.getDesktop().open(new File(PDF_FILE));
     }
     
 	public RoutineController getRoutineController() {
