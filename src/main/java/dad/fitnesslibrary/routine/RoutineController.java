@@ -90,20 +90,9 @@ public class RoutineController implements Initializable {
 		
 		countdownTimer = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 			
-			int segundos = model.getSegundos();
-			
-			int minutos = model.getMinutos();
-			
-			int i = 0;
-			
 			@Override
 			public void handle(ActionEvent event) {
-				if (segundos < 0) {
-					minutos--;
-					
-				}
-				System.out.println(i);
-				i++;
+				model.setSegundos(model.getSegundos()-1);
 			}
 		}));
 		countdownTimer.setAutoReverse(true);
@@ -115,9 +104,26 @@ public class RoutineController implements Initializable {
 				countdownTimer.setCycleCount(cantidadSegundos);
 				countdownTimer.play();
 			}
-			countdownTimer.setAutoReverse(false);
-			System.out.println("It has finished");
+			else {
+				countdownTimer.setAutoReverse(false);
+				System.out.println("It has finished");
+			}
 		});
+		
+		model.segundosProperty().addListener((obv, ov, nv) -> {
+			if (nv.intValue() < 0) {
+				model.setMinutos(model.getMinutos()-1);
+				model.setSegundos(59);
+			}
+		});
+		
+//		.bind(
+//				Bindings.when(model.segundosProperty().lessThan(0))
+//					.then(segundosMenosCero())
+//					.otherwise(model.getSegundos())
+//		);
+		
+		
 		
 		ejerciciosRoutineListView.setCellFactory(param -> new ListCell<ExerciseTime>() {
 			@Override
@@ -152,7 +158,7 @@ public class RoutineController implements Initializable {
 		});
 		
 		exerciseImageView.imageProperty().bindBidirectional(model.imageProperty());
-		minutosTextField.textProperty().bindBidirectional(model.minutosProperty(), new NumberStringConverter());
+		minutosTextField.textProperty().bindBidirectional(model.minutosProperty(), new NumberStringConverter()); //, new NumberStringConverter()
 		segundosTextField.textProperty().bindBidirectional(model.segundosProperty(), new NumberStringConverter());
 		exerciseLabel.textProperty().bindBidirectional(model.nombreProperty());
 		
@@ -184,7 +190,7 @@ public class RoutineController implements Initializable {
     @FXML
     void onStartButtonAction(ActionEvent event) {
 		int segundos = model.getSegundos()+(model.getMinutos()*60);
-    	countdownTimer.setCycleCount(5);
+    	countdownTimer.setCycleCount(segundos);
 		countdownTimer.play();
     }
     
