@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.fitnesslibrary.app.App;
 import dad.fitnesslibrary.classes.ExerciseTime;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -161,7 +162,13 @@ public class RoutineController implements Initializable {
 	@FXML
     void onDeleteExerciseAction(ActionEvent event) {
 		ExerciseTime exerciseToDelete = ejerciciosRoutineListView.getSelectionModel().getSelectedItem();
-		ejerciciosRoutineListView.getItems().remove(exerciseToDelete);
+		try {
+			ejerciciosRoutineListView.getItems().remove(exerciseToDelete);
+			App.info("El ejercicio con id " + exerciseToDelete.getName() + " ha sido eliminado.");
+		} catch (Exception e) {
+			App.error("El ejercicio con id " + exerciseToDelete.getName() + " no podido ser eliminado.", e);
+			e.printStackTrace();
+		}
     }
 	
 	@FXML

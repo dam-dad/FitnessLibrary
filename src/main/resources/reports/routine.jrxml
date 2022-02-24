@@ -27,9 +27,9 @@
 			<staticText>
 				<reportElement x="147" y="18" width="261" height="54" uuid="9595d9a1-0bae-41a9-9eaa-6311cf7461cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="26"/>
+					<font size="40"/>
 				</textElement>
-				<text><![CDATA[Mi rutina]]></text>
+				<text><![CDATA[Rutinas:]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -14,7 +14,9 @@ import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
+import dad.fitnesslibrary.app.App;
 import dad.fitnesslibrary.classes.Routine;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -114,57 +116,87 @@ public class ListRoutinesController implements Initializable {
 	@FXML
 	void onDeleteRoutineAction(ActionEvent event) {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
-		rutinasListView.getItems().remove(selectedRoutine);
+		try {
+			rutinasListView.getItems().remove(selectedRoutine);
+			App.info("La rutina " + selectedRoutine.getName() + " ha sido eliminada.");
+		} catch (Exception e) {
+			App.error("La rutina " + selectedRoutine.getName() + " no podido ser eliminada.", e);
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void onExportRoutineAction(ActionEvent event) throws IOException {
 		RoutineJson selectedRoutine = RoutineJson.fromRoutinetoJson(rutinasListView.getSelectionModel().getSelectedItem());
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(selectedRoutine);
+		try {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(selectedRoutine);
 
-		File file = new File("src\\main\\resources\\json\\" + selectedRoutine.getName() + ".json");
+			File file = new File("src\\main\\resources\\json\\" + selectedRoutine.getName() + ".json");
 
-		if (!file.exists()) {
-			file.createNewFile();
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(json);
+			bw.close();
+			App.info("La rutina " + selectedRoutine.getName() + " ha sido exportada.");
+		} catch (IOException e) {
+			App.error("La rutina " + selectedRoutine.getName() + " no podido ser exportada.", e);
+			e.printStackTrace();
 		}
-		FileWriter fw = new FileWriter(file);
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(json);
-		bw.close();
 	}
 
 	@FXML
-	void onImportRoutineAction(ActionEvent event) throws FileNotFoundException, IOException {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Importar Rutina");
+	void onImportRoutineAction(ActionEvent event){
+		try {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Importar Rutina");
 
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
-		fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
-		File json = fileChooser.showOpenDialog(null);		
-		
-		RoutineJson importRoutine = new RoutineJson();
+			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
+			fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
+			File json = fileChooser.showOpenDialog(null);		
+			
+			RoutineJson importRoutine = new RoutineJson();
 
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String content = Files.readString(json.toPath());
-		
-		importRoutine = gson.fromJson(content, RoutineJson.class);
-		rutinasListView.getItems().add(RoutineJson.fromJsontoRoutine(importRoutine));		
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String content = Files.readString(json.toPath());
+			
+			importRoutine = gson.fromJson(content, RoutineJson.class);
+			rutinasListView.getItems().add(RoutineJson.fromJsontoRoutine(importRoutine));
+			App.info("La rutina ha sido importada.");
+		} catch (JsonSyntaxException | IOException e) {
+			App.error("La rutina no podido ser importada.", e);
+			e.printStackTrace();
+		}		
 	}
 
 	@FXML
 	void onNewRoutineAction(ActionEvent event) {
-		rutinasListView.getItems().add(new Routine());
+		try {
+			rutinasListView.getItems().add(new Routine());
+			App.info("La rutina ha sido creada.");
+		} catch (Exception e) {
+			App.error("La rutina no podido ser creada.", e);
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
-	void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
+	void onSaveRoutineAction(ActionEvent event) {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
-		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
-		JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
-		Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
+		try {
+			JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
+			JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
+			Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
+			App.info("La rutina " + selectedRoutine.getName() + " ha sido guardada.");
+		} catch (JRException | IOException e) {
+			App.error("La rutina " + selectedRoutine.getName() + " no podido ser guardada.", e);
+			e.printStackTrace();
+		}
 	}
 
 	public RoutineController getRoutineController() {
