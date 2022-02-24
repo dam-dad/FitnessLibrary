@@ -7,24 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-
-
-import dad.fitnesslibrary.classes.ExerciseTime;
 import dad.fitnesslibrary.classes.Routine;
-
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -127,11 +119,11 @@ public class ListRoutinesController implements Initializable {
 
 	@FXML
 	void onExportRoutineAction(ActionEvent event) throws IOException {
-		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
+		RoutineJson selectedRoutine = RoutineJson.fromRoutinetoJson(rutinasListView.getSelectionModel().getSelectedItem());
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(selectedRoutine);
 
-		File file = new File("json/" + selectedRoutine.getName() + ".json");
+		File file = new File("src\\main\\resources\\json\\" + selectedRoutine.getName() + ".json");
 
 		if (!file.exists()) {
 			file.createNewFile();
@@ -143,44 +135,21 @@ public class ListRoutinesController implements Initializable {
 	}
 
 	@FXML
-	void onImportRoutineAction(ActionEvent event) throws ParseException, FileNotFoundException, IOException {
+	void onImportRoutineAction(ActionEvent event) throws FileNotFoundException, IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Importar Rutina");
 
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
-		fileChooser.setInitialDirectory(new File("C:\\Users\\gardo\\eclipse-workspace\\DAD\\FitnessLibrary\\json"));//quitar
+		fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
 		File json = fileChooser.showOpenDialog(null);		
 		
-		Routine importRoutine = new Routine();
-		ExerciseTime importExercise = new ExerciseTime();
-		ObservableList<ExerciseTime> exercises = null;
+		RoutineJson importRoutine = new RoutineJson();
 
-		JSONObject ob = new JSONObject(json);
-		String value = ob.getJSONObject("name").getString("value");
-		importRoutine.setName(value);
-		JSONArray arr = ob.getJSONArray("exercisesList");
-		for (int i = 0; i < arr.length(); i++) {
-			int min = arr.getJSONObject(i).getInt("minutos");
-			importExercise.setMinutos(min);
-			int seg = arr.getJSONObject(i).getInt("segundos");
-			importExercise.setSegundos(seg);
-			String id = arr.getJSONObject(i).getString("id");
-			importExercise.setId(id);
-			String gifUrl = arr.getJSONObject(i).getString("gifUrl");
-			importExercise.setGifUrl(gifUrl);
-			String name = arr.getJSONObject(i).getString("name");
-			importExercise.setName(name);
-			String equipment = arr.getJSONObject(i).getString("equipment");
-			importExercise.setEquipment(equipment);
-			String bodyPart = arr.getJSONObject(i).getString("bodyPart");
-			importExercise.setBodyPart(bodyPart);
-			String target = arr.getJSONObject(i).getString("target");
-			importExercise.setTarget(target);
-			exercises.add(importExercise);
-		}
-		importRoutine.setExercisesList(exercises);
-		rutinasListView.getItems().add(importRoutine);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String content = Files.readString(json.toPath());
 		
+		importRoutine = gson.fromJson(content, RoutineJson.class);
+		rutinasListView.getItems().add(RoutineJson.fromJsontoRoutine(importRoutine));		
 	}
 
 	@FXML

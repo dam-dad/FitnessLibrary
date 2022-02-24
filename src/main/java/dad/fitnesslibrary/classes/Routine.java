@@ -12,10 +12,16 @@ public class Routine {
 	private StringProperty name;
 
 	private ListProperty<ExerciseTime> exercisesList;
-
+	
 	public Routine() {
 		name = new SimpleStringProperty("Untitled");
 		exercisesList = new SimpleListProperty<>(FXCollections.observableArrayList());
+	}
+
+	public Routine(StringProperty name, ListProperty<ExerciseTime> exercisesList) {
+		super();
+		this.name = name;
+		this.exercisesList = exercisesList;
 	}
 
 	public final StringProperty nameProperty() {
@@ -45,5 +51,5 @@ public class Routine {
 	@Override
 	public String toString() {
 		return name.get();
-	}
+	}	
 }

@@ -1,13 +1,6 @@
 {
-  "name": {
-    "name": "",
-    "value": "Rutina1",
-    "valid": true,
-    "helper": {
-      "observable": {}
-    }
-  },
-  "exercisesList": [
+  "name": "Rutina1",
+  "exercises": [
     {
       "minutos": 0,
       "segundos": 15,
