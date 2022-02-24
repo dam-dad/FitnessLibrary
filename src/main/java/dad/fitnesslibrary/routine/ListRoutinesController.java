@@ -3,6 +3,7 @@ package dad.fitnesslibrary.routine;
 import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -12,12 +13,16 @@ import java.util.ResourceBundle;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
+
 import dad.fitnesslibrary.classes.ExerciseTime;
 import dad.fitnesslibrary.classes.Routine;
+
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -138,16 +143,14 @@ public class ListRoutinesController implements Initializable {
 	}
 
 	@FXML
-	void onImportRoutineAction(ActionEvent event) {
-		String jsonData = null;
-
+	void onImportRoutineAction(ActionEvent event) throws ParseException, FileNotFoundException, IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Importar Rutina");
 
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
-		fileChooser.setInitialDirectory(new File("C:\\Users\\gardo\\eclipse-workspace\\DAD\\FitnessLibrary\\json"));
-		File json = fileChooser.showOpenDialog(null);
-
+		fileChooser.setInitialDirectory(new File("C:\\Users\\gardo\\eclipse-workspace\\DAD\\FitnessLibrary\\json"));//quitar
+		File json = fileChooser.showOpenDialog(null);		
+		
 		Routine importRoutine = new Routine();
 		ExerciseTime importExercise = new ExerciseTime();
 		ObservableList<ExerciseTime> exercises = null;
@@ -177,7 +180,7 @@ public class ListRoutinesController implements Initializable {
 		}
 		importRoutine.setExercisesList(exercises);
 		rutinasListView.getItems().add(importRoutine);
-
+		
 	}
 
 	@FXML
@@ -188,11 +191,9 @@ public class ListRoutinesController implements Initializable {
 	@FXML
 	void onSaveRoutineAction(ActionEvent event) throws JRException, IOException {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
-		JasperReport report = JasperCompileManager
-				.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
+		JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		JasperPrint print = JasperFillManager.fillReport(report, parameters,
-				new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
+		JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
 		JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
 		Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
 	}
