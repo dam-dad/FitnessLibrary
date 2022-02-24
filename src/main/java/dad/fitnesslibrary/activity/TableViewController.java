@@ -15,6 +15,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import dad.fitnesslibrary.app.App;
 import dad.fitnesslibrary.classes.Exercise;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -26,8 +27,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 /**
  * Controlador de la tabla de ejercicios 
@@ -173,27 +176,6 @@ public class TableViewController implements Initializable {
 		getResponseBodyExercise("/name/" + name);
 	}
 
-//	// Exercises by BodyPart (Javi y Robertz)
-//	public void getByBodypart(String bodyPart) throws IOException {
-//		bodyPart.replaceAll(" ", "%20");
-//
-//		getResponseBodyExercise("/bodyPart/" + bodyPart);
-//	}
-//
-//	// Exercises by Target (Javi y Robertz)
-//	public void getByTarget(String target) throws IOException {
-//		target.replaceAll(" ", "%20");
-//
-//		getResponseBodyExercise("/target/" + target);
-//	}
-//	
-//	// Exercises by Equipment (Javi y Robertz)
-//	public void getByEquipment(String equipment) throws IOException {
-//		equipment.replaceAll(" ", "%20");
-//
-//		getResponseBodyExercise("/equipment/" + equipment);
-//	}
-
 	private void getResponseBodyExercise(String parameter) throws IOException {
 		Task<List<Exercise>> rbTask = new Task<List<Exercise>>() {
 			@Override
@@ -209,12 +191,16 @@ public class TableViewController implements Initializable {
 				exerciseList.bind(root.itemsProperty());
 				exerciseListAux = new SimpleListProperty<>(exerciseList);
 			} catch (InterruptedException | ExecutionException e1) {
-				e1.printStackTrace();
+				App.error("There were problems loading the principal list (App side)", e1);
 			}
 		});
 
 		rbTask.setOnFailed(e -> {
-			System.err.println(rbTask.getException());
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(App.primaryStage);
+			alert.setTitle("FitnessLibrary-Error");
+			alert.setHeaderText("There were problems loading the principal list (API Side) \n"
+					+ rbTask.getException().getMessage());
 		});
 
 		Thread thread = new Thread(rbTask);

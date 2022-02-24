@@ -117,10 +117,9 @@ public class ListRoutinesController implements Initializable {
 		Routine selectedRoutine = rutinasListView.getSelectionModel().getSelectedItem();
 		try {
 			rutinasListView.getItems().remove(selectedRoutine);
-			App.info("La rutina " + selectedRoutine.getName() + " ha sido eliminada.");
+			App.info("The routine " + selectedRoutine.getName() + " was deleted.");
 		} catch (Exception e) {
-			App.error("La rutina " + selectedRoutine.getName() + " no podido ser eliminada.", e);
-			e.printStackTrace();
+			App.error("The routine " + selectedRoutine.getName() + " was not deleted.", e);
 		}
 	}
 
@@ -140,10 +139,9 @@ public class ListRoutinesController implements Initializable {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(json);
 			bw.close();
-			App.info("La rutina " + selectedRoutine.getName() + " ha sido exportada.");
+			App.info("The routine " + selectedRoutine.getName() + " has been exported.");
 		} catch (IOException e) {
-			App.error("La rutina " + selectedRoutine.getName() + " no podido ser exportada.", e);
-			e.printStackTrace();
+			App.error("The routine " + selectedRoutine.getName() + " could not be exported.", e);
 		}
 	}
 
@@ -164,10 +162,9 @@ public class ListRoutinesController implements Initializable {
 			
 			importRoutine = gson.fromJson(content, RoutineJson.class);
 			rutinasListView.getItems().add(RoutineJson.fromJsontoRoutine(importRoutine));
-			App.info("La rutina ha sido importada.");
+			App.info("The routine has been imported.");
 		} catch (JsonSyntaxException | IOException e) {
-			App.error("La rutina no podido ser importada.", e);
-			e.printStackTrace();
+			App.error("The routine has not been imported.", e);
 		}		
 	}
 
@@ -175,10 +172,9 @@ public class ListRoutinesController implements Initializable {
 	void onNewRoutineAction(ActionEvent event) {
 		try {
 			rutinasListView.getItems().add(new Routine());
-			App.info("La rutina ha sido creada.");
+			App.info("The routine was created.");
 		} catch (Exception e) {
-			App.error("La rutina no podido ser creada.", e);
-			e.printStackTrace();
+			App.error("THe routine could not be created.", e);
 		}
 	}
 
@@ -191,10 +187,9 @@ public class ListRoutinesController implements Initializable {
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
 			JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
 			Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
-			App.info("La rutina " + selectedRoutine.getName() + " ha sido guardada.");
+			App.info("The routine " + selectedRoutine.getName() + " has been saved");
 		} catch (JRException | IOException e) {
-			App.error("La rutina " + selectedRoutine.getName() + " no podido ser guardada.", e);
-			e.printStackTrace();
+			App.error("The routine " + selectedRoutine.getName() + " could not be saved.", e);
 		}
 	}
 

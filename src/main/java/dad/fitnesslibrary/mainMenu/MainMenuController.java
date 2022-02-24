@@ -45,8 +45,7 @@ public class MainMenuController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-//		getImageViewMain().fitWidthProperty().bind(MainIMGPane.prefWidthProperty());
-//		getImageViewMain().fitHeightProperty().bind(MainIMGPane.prefHeightProperty());
+		
 	}
 
 	public Button getBtn_Start() {

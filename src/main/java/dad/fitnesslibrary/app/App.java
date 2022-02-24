@@ -12,7 +12,7 @@ public class App extends Application {
 
 	RoutineActivityController raC;
 
-	private static Stage primaryStage;
+	public static Stage primaryStage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -23,6 +23,8 @@ public class App extends Application {
 		primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("/img/Logo.png")));
 		primaryStage.setScene(new Scene(raC.getView(), 800, 700));
 		primaryStage.show();
+		
+		this.primaryStage = primaryStage;
 
 	}
 
@@ -36,6 +38,7 @@ public class App extends Application {
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(content);
+		alert.initOwner(primaryStage);
 		return alert.showAndWait().get().equals(ButtonType.OK);
 	}
 
@@ -49,6 +52,7 @@ public class App extends Application {
 		} else {
 			alert.setContentText(e.getMessage());
 		}
+		alert.initOwner(primaryStage);
 		alert.showAndWait();
 	}
 
@@ -58,6 +62,7 @@ public class App extends Application {
 		alert.setTitle("FitnessLibrary-Info");
 		alert.setHeaderText(header);
 		alert.setContentText("");
+		alert.initOwner(primaryStage);
 		alert.showAndWait();
 	}
 
