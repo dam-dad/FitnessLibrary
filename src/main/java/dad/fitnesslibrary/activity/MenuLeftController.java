@@ -21,9 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 /**
  * Controlador del menú de la izquierda
@@ -35,12 +33,6 @@ public class MenuLeftController implements Initializable {
 
 	private Type stringListType = new TypeToken<List<String>>() {
 	}.getType();
-
-	private ToggleGroup bodypartTG = new ToggleGroup();
-
-	private ToggleGroup equipmentTG = new ToggleGroup();
-
-	private ToggleGroup targetTG = new ToggleGroup();
 	
 	private static List<CheckBox> bodypartCheckBoxes;
 	
@@ -56,12 +48,6 @@ public class MenuLeftController implements Initializable {
 		equipmentCheckBoxes = new ArrayList<CheckBox>();
 		targetCheckBoxes = new ArrayList<CheckBox>();
 		
-		equipmentTG.selectedToggleProperty().addListener((obv, ov, nv) -> {
-			if (ov != nv) {
-				RadioButton selectedRadioButton = (RadioButton) nv.getToggleGroup().getSelectedToggle();
-				System.out.println(selectedRadioButton.getText());
-			}
-		});
 	}
 
 	@FXML
@@ -205,17 +191,29 @@ public class MenuLeftController implements Initializable {
 
 		return response.body().string();
 	}
-	
-	public ToggleGroup getBodypartTG() {
-		return bodypartTG;
+
+	public static List<CheckBox> getBodypartCheckBoxes() {
+		return bodypartCheckBoxes;
 	}
 
-	public ToggleGroup getEquipmentTG() {
-		return equipmentTG;
+	public static void setBodypartCheckBoxes(List<CheckBox> bodypartCheckBoxes) {
+		MenuLeftController.bodypartCheckBoxes = bodypartCheckBoxes;
 	}
 
-	public ToggleGroup getTargetTG() {
-		return targetTG;
+	public static List<CheckBox> getEquipmentCheckBoxes() {
+		return equipmentCheckBoxes;
+	}
+
+	public static void setEquipmentCheckBoxes(List<CheckBox> equipmentCheckBoxes) {
+		MenuLeftController.equipmentCheckBoxes = equipmentCheckBoxes;
+	}
+
+	public static List<CheckBox> getTargetCheckBoxes() {
+		return targetCheckBoxes;
+	}
+
+	public static void setTargetCheckBoxes(List<CheckBox> targetCheckBoxes) {
+		MenuLeftController.targetCheckBoxes = targetCheckBoxes;
 	}
 
 	public ScrollPane getLeftMenuView() {

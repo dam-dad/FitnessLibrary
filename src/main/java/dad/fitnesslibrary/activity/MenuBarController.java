@@ -21,6 +21,9 @@ public class MenuBarController implements Initializable {
 
 	@FXML
 	private Button buscarButton;
+	
+	@FXML
+    private Button clearFiltersButton;
 
 	@FXML
 	private TextField busquedaText;
@@ -42,6 +45,10 @@ public class MenuBarController implements Initializable {
 
 	public TextField getBusquedaText() {
 		return busquedaText;
+	}
+	
+	public Button getClearFiltersButton() {
+		return clearFiltersButton;
 	}
 
 	public Button getBuscarButton() {

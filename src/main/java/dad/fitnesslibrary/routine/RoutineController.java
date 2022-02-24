@@ -177,6 +177,9 @@ public class RoutineController implements Initializable {
 
     @FXML
     void onStartButtonAction(ActionEvent event) {
+    	deleteExerciseButton.setDisable(true);
+    	afterExerciseButton.setDisable(true);
+    	beforeExerciseButton.setDisable(true);
     	countDownTimer = new Timer();
     	countDownTimer.schedule(new TimerTask() {
 	        @Override
@@ -189,6 +192,9 @@ public class RoutineController implements Initializable {
     @FXML
     void onPauseButtonAction(ActionEvent event) {
     	countDownTimer.cancel();
+    	deleteExerciseButton.setDisable(false);
+    	afterExerciseButton.setDisable(false);
+    	beforeExerciseButton.setDisable(false);
     }
     
     @FXML
@@ -198,6 +204,9 @@ public class RoutineController implements Initializable {
     	model.setMinutos(model.getExerciseSelected().getMinutos());
     	model.setSegundos(model.getExerciseSelected().getSegundos());
     	ejerciciosRoutineListView.getSelectionModel().select(0);
+    	deleteExerciseButton.setDisable(false);
+    	afterExerciseButton.setDisable(false);
+    	beforeExerciseButton.setDisable(false);
     }
     
 	public Button getBeforeExerciseButton() {

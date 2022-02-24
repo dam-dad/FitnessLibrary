@@ -156,6 +156,14 @@ public class RoutineActivityController implements Initializable {
 				alert.showAndWait();
 			}
 		});
+		
+		menuBarController.getClearFiltersButton().setOnAction(e -> {
+			menuBarController.getBusquedaText().clear();
+			MenuLeftController.getBodypartCheckBoxes().forEach(chk -> chk.setSelected(false));
+			MenuLeftController.getEquipmentCheckBoxes().forEach(chk -> chk.setSelected(false));
+			MenuLeftController.getTargetCheckBoxes().forEach(chk -> chk.setSelected(false));
+			TableViewController.getAllExercises();
+		});
 
 		TableViewController.getRoot().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {

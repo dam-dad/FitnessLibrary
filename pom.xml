@@ -94,8 +94,8 @@
 						</goals>
 						<configuration>
 							<mainClass>dad.fitnesslibrary.app.Main</mainClass>
-							<bundleJre>true</bundleJre>
-							<name>Fitness Library</name>
+							<!-- <bundleJre>true</bundleJre>
+							<name>FitnessLibrary</name>
 							<customizedJre>false</customizedJre>
 							<generateInstaller>true</generateInstaller>
 							<administratorRequired>false</administratorRequired>
@@ -105,7 +105,7 @@
 								<createDesktopIconTask>false</createDesktopIconTask>
 								<disableDirPage>false</disableDirPage>
 								<disableFinishedPage>false</disableFinishedPage>
-							</winConfig>
+							</winConfig> -->
 						</configuration>
 					</execution>
 				</executions>
