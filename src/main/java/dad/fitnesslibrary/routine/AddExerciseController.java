@@ -17,7 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
+/**
+ * Controlador de la pantalla del ejercicio dentro de la rutina 
+ *
+ */
 public class AddExerciseController implements Initializable {
 
 	@FXML
