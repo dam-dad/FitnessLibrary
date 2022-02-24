@@ -130,7 +130,13 @@ public class ListRoutinesController implements Initializable {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String json = gson.toJson(selectedRoutine);
 
-			File file = new File("src\\main\\resources\\json\\" + selectedRoutine.getName() + ".json");
+			
+			File file = new File("json\\" + selectedRoutine.getName() + ".json");
+			File directorio = file.getParentFile();
+			
+			if(!directorio.exists()) {
+				directorio.mkdirs();
+			}
 
 			if (!file.exists()) {
 				file.createNewFile();
@@ -152,7 +158,9 @@ public class ListRoutinesController implements Initializable {
 			fileChooser.setTitle("Importar Rutina");
 
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json", "*.json"));
-			fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
+//			fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
+//			fileChooser.setInitialDirectory(new File(getClass().getResource("/json").getFile()));
+
 			File json = fileChooser.showOpenDialog(null);		
 			
 			RoutineJson importRoutine = new RoutineJson();
@@ -164,7 +172,8 @@ public class ListRoutinesController implements Initializable {
 			rutinasListView.getItems().add(RoutineJson.fromJsontoRoutine(importRoutine));
 			App.info("The routine has been imported.");
 		} catch (JsonSyntaxException | IOException e) {
-			App.error("The routine has not been imported.", e);
+			App.error(e.getCause().getMessage(), e);
+			e.printStackTrace();
 		}		
 	}
 
@@ -185,9 +194,15 @@ public class ListRoutinesController implements Initializable {
 			JasperReport report = JasperCompileManager.compileReport(ListRoutinesController.class.getResourceAsStream(JRXML_FILE));
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, new JRBeanCollectionDataSource(selectedRoutine.getExercisesList()));
+			File file = new File("pdf/" + selectedRoutine.getName() + ".pdf");
+			File directorio = file.getParentFile();
+			if(!directorio.exists()) {
+				directorio.mkdirs();
+			}
 			JasperExportManager.exportReportToPdfFile(print, "pdf/" + selectedRoutine.getName() + ".pdf");
+
 			Desktop.getDesktop().open(new File("pdf/" + selectedRoutine.getName() + ".pdf"));
-			App.info("The routine " + selectedRoutine.getName() + " has been saved");
+			App.info("The routine " + selectedRoutine.getName() + " has been saved.");
 		} catch (JRException | IOException e) {
 			App.error("The routine " + selectedRoutine.getName() + " could not be saved.", e);
 		}
