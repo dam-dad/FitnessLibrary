@@ -42,4 +42,9 @@ public class ExerciseTime extends Exercise {
 	public void setExercise(Exercise exercise) {
 		this.exercise = exercise;
 	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

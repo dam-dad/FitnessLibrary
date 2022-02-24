@@ -21,7 +21,7 @@ public class App extends Application {
 
 		primaryStage.setTitle("Fitness Library");
 		primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("/img/Logo.png")));
-		primaryStage.setScene(new Scene(raC.getView(), 800, 600));
+		primaryStage.setScene(new Scene(raC.getView(), 800, 700));
 		primaryStage.show();
 
 	}
@@ -64,6 +64,11 @@ public class App extends Application {
 	public static void main(String[] args) {
 		launch(args);
 
+	}
+	
+	@Override
+	public void stop() throws Exception {
+		System.exit(0);
 	}
 
 }

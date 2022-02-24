@@ -14,16 +14,21 @@ import dad.fitnesslibrary.mainMenu.MainMenuController;
 import dad.fitnesslibrary.routine.AddExerciseController;
 import dad.fitnesslibrary.routine.ListRoutinesController;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.binding.StringExpression;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 /**
  * Controlador de la rutina 
  *
@@ -41,6 +46,18 @@ public class RoutineActivityController implements Initializable {
 
 	@FXML
 	private Tab activityTab;
+	
+	@FXML
+    private Label TimeHiddenLabel;
+	
+	@FXML
+    private Label exerciseHiddenLabel;
+	
+	@FXML
+    private ImageView hiddenImageView;
+	
+	@FXML
+    private HBox hiddenBox;
 
 	@FXML
 	private BorderPane view;
@@ -100,10 +117,9 @@ public class RoutineActivityController implements Initializable {
 		listRoutinesController.getRutinasListView().setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
-//					if (listRoutinesController.getModel().getRoutine().equals(null)) {	
-					routineTab.setContent(listRoutinesController.getRoutineController().getRoot());
-						
-//					}
+					if (!listRoutinesController.getRutinasListView().getItems().isEmpty()) {	
+						routineTab.setContent(listRoutinesController.getRoutineController().getRoot());
+					}
 				}
 			}
 		});
@@ -130,10 +146,14 @@ public class RoutineActivityController implements Initializable {
 				}
 				ExerciseTime exerciseWithTimer = new ExerciseTime(exerciseSelected, minutos, segundos);
 				listRoutinesController.getRoutineController().getModel().exercisesProperty().add(exerciseWithTimer);
+				listRoutinesController.getRoutineController().getEjerciciosRoutineListView().getSelectionModel().select(exerciseWithTimer);
 				addExerciseController.getAddExerciseStage().close();
 			} catch (NumberFormatException e1) {
 				Alert alert = new Alert(AlertType.ERROR);
-				e1.printStackTrace();
+				alert.setHeaderText("No se ha introducido un valor adecuado");
+				alert.setContentText("No se ha introducido un valor entero valido \n"
+						+ e1.getMessage());
+				alert.showAndWait();
 			}
 		});
 
@@ -150,7 +170,31 @@ public class RoutineActivityController implements Initializable {
 		});
 
 		menuBarController.getBuscarButton().setOnAction(e -> onBuscarButtonAction(e));
-
+		
+		listRoutinesController.getRoutineController().getExerciseImageView().imageProperty().addListener((obv, ov, nv) -> {
+			if (ov != nv) {
+				hiddenImageView.setImage(nv);
+			}
+		});
+		
+		
+		hiddenImageView.visibleProperty().bind(
+				Bindings.when(mainView.getSelectionModel().selectedItemProperty().isEqualTo(activityTab))
+				.then(true)
+				.otherwise(false)
+		);
+		
+		exerciseHiddenLabel.textProperty().bind(listRoutinesController.getRoutineController().getExerciseLabel().textProperty());
+		
+		StringExpression timeExpression = listRoutinesController.getRoutineController().getModel().minutosProperty().asString().concat(":").concat(listRoutinesController.getRoutineController().getModel().segundosProperty().asString());
+		TimeHiddenLabel.textProperty().bind(timeExpression);
+		
+		NumberBinding sizeHiddenBoxBinding = Bindings.when(mainView.getSelectionModel().selectedItemProperty().isEqualTo(activityTab))
+			.then(95)
+			.otherwise(0);
+		
+		hiddenBox.prefHeightProperty().bind(sizeHiddenBoxBinding);
+		
 		// Listeners
 	}
 
@@ -158,7 +202,11 @@ public class RoutineActivityController implements Initializable {
 		try {
 			TableViewController.getByName(menuBarController.getBusquedaText().getText());
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText("No se ha introducido un valor adecuado");
+			alert.setContentText("No se ha introducido un valor de búsqueda valido \n"
+					+ e1.getMessage());
+			alert.showAndWait();
 		}
 	}
 

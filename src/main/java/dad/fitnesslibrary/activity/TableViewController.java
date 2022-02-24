@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -227,7 +226,9 @@ public class TableViewController implements Initializable {
 
 		Request request = new Request.Builder().url("https://exercisedb.p.rapidapi.com/exercises" + parameter).get()
 				.addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")
-				.addHeader("x-rapidapi-key", "582862b3a3mshb1f23c0f20232c2p175ea4jsn3aa2ad592392").build();
+				// Secundaria: 6cecac0657msh67ad3a0c522aeccp1aa69ajsn2f5640fe0689
+				// Principal(Esperar a marzo): 582862b3a3mshb1f23c0f20232c2p175ea4jsn3aa2ad592392
+				.addHeader("x-rapidapi-key", "6cecac0657msh67ad3a0c522aeccp1aa69ajsn2f5640fe0689").build();
 
 		Response response = client.newCall(request).execute();
 

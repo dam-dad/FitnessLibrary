@@ -2,27 +2,28 @@ package dad.fitnesslibrary.routine;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import dad.fitnesslibrary.app.App;
 import dad.fitnesslibrary.classes.ExerciseTime;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 import javafx.util.converter.NumberStringConverter;
 
 public class RoutineController implements Initializable {
@@ -68,8 +69,8 @@ public class RoutineController implements Initializable {
     
     @FXML
 	private GridPane root;
-
-	private Timeline countdownTimer;
+	
+	private Timer countDownTimer;
 	
 	private RoutineModel model;
 
@@ -87,43 +88,36 @@ public class RoutineController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new RoutineModel();
 		
-		
-		countdownTimer = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				model.setSegundos(model.getSegundos()-1);
-			}
-		}));
-		countdownTimer.setAutoReverse(true);
-		countdownTimer.setOnFinished(e -> {
-			int index = ejerciciosRoutineListView.getSelectionModel().getSelectedIndex();
-			if (!(index >= ejerciciosRoutineListView.getItems().size() - 1)) {
-				ejerciciosRoutineListView.getSelectionModel().selectNext();
-				int cantidadSegundos = model.getMinutos()*60 + model.getSegundos();
-				countdownTimer.setCycleCount(cantidadSegundos);
-				countdownTimer.play();
-			}
-			else {
-				countdownTimer.setAutoReverse(false);
-				System.out.println("It has finished");
-			}
-		});
+		countDownTimer = new Timer();
 		
 		model.segundosProperty().addListener((obv, ov, nv) -> {
 			if (nv.intValue() < 0) {
 				model.setMinutos(model.getMinutos()-1);
 				model.setSegundos(59);
 			}
+			if (nv.intValue() == 0 && model.getMinutos() == 0 ) {
+				if (model.exercisesProperty().indexOf(model.getExerciseSelected()) != model.exercisesProperty().size()-1) {
+					countDownTimer.cancel();
+					ejerciciosRoutineListView.getSelectionModel().selectNext();
+					countDownTimer = new Timer();
+					countDownTimer.schedule(new TimerTask() {
+				        @Override
+				        public void run() {
+				            Platform.runLater(() -> model.setSegundos(model.getSegundos()-1));
+				        }
+				    }, 0, 1000);
+				}
+				else {
+					countDownTimer.cancel();
+					countDownTimer.purge();
+					ejerciciosRoutineListView.getSelectionModel().select(0);
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setHeaderText("Congratulations!");
+					alert.setContentText("You have completed the routine");
+					alert.showAndWait();
+				}
+			}
 		});
-		
-//		.bind(
-//				Bindings.when(model.segundosProperty().lessThan(0))
-//					.then(segundosMenosCero())
-//					.otherwise(model.getSegundos())
-//		);
-		
-		
 		
 		ejerciciosRoutineListView.setCellFactory(param -> new ListCell<ExerciseTime>() {
 			@Override
@@ -140,24 +134,18 @@ public class RoutineController implements Initializable {
 		
 		model.exerciseSelectedProperty().bind(ejerciciosRoutineListView.getSelectionModel().selectedItemProperty());
 		
-		BooleanBinding disableBefore = Bindings.when(model.exercisesProperty().emptyProperty()).then(true).otherwise(false);
-		beforeExerciseButton.disableProperty().bind(disableBefore);
-		
-		BooleanBinding disableAfter = Bindings.when(ejerciciosRoutineListView.getSelectionModel().selectedIndexProperty().isEqualTo(model.exercisesProperty().size()-1)).then(true).otherwise(false);
-		afterExerciseButton.disableProperty().bind(disableAfter);
-		
 		model.exerciseSelectedProperty().addListener((obv, ov, nv) -> {
 			if (ov != nv && nv != null) {
-//				if (Objects.nonNull(nv.getGifUrl())) {
-//					model.setImage(new Image(getClass().getResourceAsStream(nv.getGifUrl())));
-//				}
+				if (Objects.nonNull(nv.getGifUrl())) {
+					exerciseImageView.setImage(new Image(nv.getGifUrl()));
+				}
 				model.setNombre(nv.getName());
 				model.setMinutos(nv.getMinutos());
 				model.setSegundos(nv.getSegundos());
 			}
 		});
 		
-		exerciseImageView.imageProperty().bindBidirectional(model.imageProperty());
+//		exerciseImageView.imageProperty().bindBidirectional(model.imageProperty());
 		minutosTextField.textProperty().bindBidirectional(model.minutosProperty(), new NumberStringConverter()); //, new NumberStringConverter()
 		segundosTextField.textProperty().bindBidirectional(model.segundosProperty(), new NumberStringConverter());
 		exerciseLabel.textProperty().bindBidirectional(model.nombreProperty());
@@ -189,21 +177,27 @@ public class RoutineController implements Initializable {
 
     @FXML
     void onStartButtonAction(ActionEvent event) {
-		int segundos = model.getSegundos()+(model.getMinutos()*60);
-    	countdownTimer.setCycleCount(segundos);
-		countdownTimer.play();
+    	countDownTimer = new Timer();
+    	countDownTimer.schedule(new TimerTask() {
+	        @Override
+	        public void run() {
+	            Platform.runLater(() -> model.setSegundos(model.getSegundos()-1));
+	        }
+	    }, 0, 1000);
     }
     
     @FXML
     void onPauseButtonAction(ActionEvent event) {
-    	countdownTimer.pause();
-    	System.out.println("Ha sido pausado");
+    	countDownTimer.cancel();
     }
     
     @FXML
     void onStopButtonAction(ActionEvent event) {
-    	countdownTimer.stop();
-    	System.out.println("Ha sido parado");
+    	countDownTimer.cancel();
+    	countDownTimer.purge();
+    	model.setMinutos(model.getExerciseSelected().getMinutos());
+    	model.setSegundos(model.getExerciseSelected().getSegundos());
+    	ejerciciosRoutineListView.getSelectionModel().select(0);
     }
     
 	public Button getBeforeExerciseButton() {
@@ -224,6 +218,10 @@ public class RoutineController implements Initializable {
 
 	public ListView<ExerciseTime> getEjerciciosRoutineListView() {
 		return ejerciciosRoutineListView;
+	}
+	
+	public Label getExerciseLabel() {
+		return exerciseLabel;
 	}
 
 	public Button getBackButton() {
