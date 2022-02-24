@@ -94,18 +94,17 @@
 						</goals>
 						<configuration>
 							<mainClass>dad.fitnesslibrary.app.Main</mainClass>
+							<icoFile>Logo.ico</icoFile>
 							<!-- <bundleJre>true</bundleJre>
 							<name>FitnessLibrary</name>
 							<customizedJre>false</customizedJre>
 							<generateInstaller>true</generateInstaller>
 							<administratorRequired>false</administratorRequired>
-							<platform>auto</platform>
+							<platform>auto</platform>-->
 							<winConfig>
 								<generateMsi>false</generateMsi>
-								<createDesktopIconTask>false</createDesktopIconTask>
-								<disableDirPage>false</disableDirPage>
-								<disableFinishedPage>false</disableFinishedPage>
-							</winConfig> -->
+								<icoFile>Logo.ico</icoFile>
+							</winConfig> 
 						</configuration>
 					</execution>
 				</executions>
